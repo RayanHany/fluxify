@@ -5,8 +5,8 @@ class post(models.Model):
     live=1
     delete=0
     delete_choices=((live,'live')),(delete,'delete')
-    post_image=models.ImageField(upload_to='/media/post_images')
-    posted_by=models.ForeignKey(user,null=False,on_delete=models.SET_NULL,related_name='posts')
+    post_image=models.ImageField(upload_to='media/')
+    posted_by=models.ForeignKey(user,null=True,on_delete=models.SET_NULL,related_name='posts')
     catagory=models.CharField(max_length=100)
     post_location=models.CharField(max_length=100)
     post_description=models.CharField(max_length=200)
@@ -21,7 +21,7 @@ class post(models.Model):
 class review(models.Model):
     post=models.ForeignKey(post,null=False,on_delete=models.CASCADE,related_name='reviews')
     review_text=models.TextField()
-    review_by=models.ForeignKey(user,null=False,on_delete=models.SET_NULL,related_name='reviews')
+    review_by=models.ForeignKey(user,null=True,on_delete=models.SET_NULL,related_name='reviews')
     rating=models.FloatField()
     created_at=models.DateTimeField(auto_now=True)
 
