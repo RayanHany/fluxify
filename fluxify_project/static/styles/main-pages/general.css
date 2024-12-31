@@ -1,0 +1,39 @@
+body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    font-family: roboto,arial;
+    
+    
+}
+.page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    max-width: 500px;
+    /*border: solid 1px white;*/
+   
+  
+}
+.page-chat{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 100px;
+    max-width: 500px;
+    /*border: solid 1px white;*/
+   
+  
+}
+.page-settings{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 100px;
+    max-width: 500px;
+    /*border: solid 1px white;*/
+}

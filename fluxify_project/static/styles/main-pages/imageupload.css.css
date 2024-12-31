@@ -1,0 +1,108 @@
+/*Image input field css Start here*/ 
+  /* Import Google Font 'Montserrat' */
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap");
+
+  /* common variables */
+  :root {
+    /* colors */
+    --primary: #000000;
+    --secondary: #6d6d6d;
+    --secondary-dark: #7b7b7b;
+    --light: #ffffff;
+    --danger: #f45050;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  .drop-area {
+    margin-top: 100px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 500px;
+    height: 320px;
+    border-radius: 45px;
+    color: var(--light);
+    font-size: 1.7rem;
+    font-weight: 600;
+    overflow: hidden;
+    border: 1px solid var(--light);
+  }
+
+  .drop-area.active {
+    border: 2px solid var(--light);
+    box-shadow: 0px 0px 10px rgb(255, 255, 255);
+    transition: 0.02s;
+  }
+
+  .drop-area i {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+  }
+
+  .drop-area p {
+    font-size: medium;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .drop-area span {
+    font-size: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .drop-area button {
+    padding: 10px 1.5rem;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--light);
+    background-color: var(--secondary);
+    text-decoration: none;
+    border: 1px solid var(--secondary);
+    cursor: pointer;
+    transition: text-decoration 0.2s ease, background-color 0.2s ease,
+      border 0.2s ease;
+  }
+
+  .drop-area button:hover {
+    border: 1px solid var(--secondary-dark);
+    background-color: var(--secondary-dark);
+  }
+
+  .drop-area span a:hover {
+    text-decoration: underline;
+  }
+
+  .drop-area img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* CSS if error occurred */
+  .drop-area.error {
+    color: var(--danger);
+    border: 2px dashed var(--danger);
+  }
+
+  .drop-area.error p {
+    padding: 0 4rem;
+    margin-bottom: 2rem;
+  }
+
+  .drop-area.error span {
+    display: none;
+  }
+ /*Image input field css Ends here*/
+
+
+
