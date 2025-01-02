@@ -1,4 +1,4 @@
-
+{% load  static %}
 <style>
 *{
     margin: 0;
@@ -80,19 +80,19 @@
         <i class='bx bx-plus'></i>
       </div>
       <span style="--i:1;">
-        <a href="#"><i class='bx bxs-cog' ></i></a>
+        <a href="{% url 'settings_page' %}"><i class='bx bxs-cog' ></i></a>
       </span>
       <span style="--i:2;">
-        <a href="#"><i class='bx bxs-plus-circle'></i></a>
+        <a href="{% url 'list_page' %}"><i class='bx bxs-plus-circle'></i></a>
       </span>
       <span style="--i:3;">
-        <a href="#"><i class='bx bxs-message-rounded'></i></i></a>
+        <a href="{% url 'chat_page' %}"><i class='bx bxs-message-rounded'></i></i></a>
       </span>
       <span style="--i:4;">
-        <a href="#"><i class='bx bxs-user'></i></a>
+        <a href="{% url 'profile_page' %}"><i class='bx bxs-user'></i></a>
       </span>
       <span style="--i:5;">
-        <a href="#"><i class='bx bxs-home'></i></i></a>
+        <a href="{% url 'home_page' %}"><i class='bx bxs-home'></i></i></a>
       </span>
     </div>
   </nav>

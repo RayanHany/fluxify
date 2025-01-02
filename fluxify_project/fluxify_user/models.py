@@ -1,8 +1,10 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 
 # Create your models here.
 class user(models.Model):
     mail_id=models.CharField(max_length=200)
+    password=models.CharField( max_length=50,validators=[MinLengthValidator(8)])
     user_name=models.CharField(max_length=200)
     phone_no=models.CharField(max_length=10)
     pin_code=models.CharField(max_length=6)

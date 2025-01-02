@@ -1,0 +1,155 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/profile-add.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>Listing-page</title>
+</head>
+<body>
+    <div class="header-logo-profile">
+      <div class="lp-inner-one">
+        <img class="Header-logo-profile-img" src="images/fluxify logo-01.svg" alt="">
+      </div>
+      <div class="lp-inner-two">
+      </div>
+      <div class="lp-inner-three">
+        <img class="profile-icon-heder" src="images/naheel.jpg" alt="">
+      </div>
+    </div>
+    <div class="page">
+        <div class="drop-area">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Drag and drop to upload file</p>
+      
+            <span>OR</span>
+            <button id="browse-file-btn">Browse Files</button>
+            <input type="file" id="input-file" hidden />
+          </div>
+          <!-- From Here the input box inserted-->
+          <div style="margin-top: 500px;
+                display: flex;
+                flex-direction:row;">
+                <div style="margin-right: 20px;">
+                    <input class="drop-down" list="Catagories" placeholder="Catagories">
+                    <datalist id="Catagories">
+                    <option value="Bill-Bord/Hordings">
+                    <option value="Wall-advertisements">
+                    <option value="Big-screens">
+                    <option value="Mic-anoncements">
+                    <option value="Others">
+                    </datalist>
+                </div>
+                <div>
+                    <input type="text"class="input-short"placeholder="Location"/>
+                </div>
+            </div>
+            <div>
+                <div style="width: 500px;">
+                    <textarea name="Description" class="input-long"placeholder="Description"></textarea>
+                </div> 
+            </div>
+            <div style="display: flex;
+                flex-direction: row;
+                padding-top: 25px;">
+                <div style="margin-right: 20px;">
+                    <input type="text"class="input-short"placeholder="Avg Price"/>
+                </div>
+                <div>
+                    <input type="text"class="input-short"placeholder="Avg Reach"/>
+                </div>
+            </div>
+            <div style="margin-left: 400px;
+                        margin-top: -20px;">
+                <button class="button-icon-text">Post <i class='bx bxs-right-arrow'></i></i></button>
+            </div>
+    </div>
+
+    {% block nav_button%}
+    {% include "nav_button.html" %}
+    {% endblock nav_button%}
+
+
+
+      <script>
+                  const dropArea = document.querySelector(".drop-area");
+          const text = dropArea.querySelector("p");
+          const button = document.getElementById("browse-file-btn");
+          const input = document.getElementById("input-file");
+
+          //handling input click event using button
+          button.addEventListener("click", () => input.click());
+
+          //adding an event listener to the input
+          input.addEventListener("change", (e) => {
+            //extracting a file from an event object
+            let file = e.target.files[0];
+            //calling upload function
+            upload(file);
+          });
+
+          //if user drag file over drop area stop default functionality
+          dropArea.addEventListener("dragover", (e) => e.preventDefault());
+
+          //When a user drops a file, the file is uploaded.
+          dropArea.addEventListener("drop", (e) => {
+            //stops default functionality
+            e.preventDefault();
+            //extraction of a file from a drop event
+            let file = e.dataTransfer.files[0];
+            //calling upload function
+            upload(file);
+          });
+
+          //function to check the image type. return 'true' or 'false'
+          const check = (file) => {
+            let extensions = ["image/png", "image/jpg", "image/jpeg"];
+            if (extensions.includes(file.type)) return true;
+
+            return false;
+          };
+
+          //function to remove a previous image
+          const clear = () => {
+            let img = dropArea.querySelector("img");
+            if (img) dropArea.removeChild(img);
+          };
+
+          //function to upload image
+          const upload = (file) => {
+            //calling clear function first
+            clear();
+
+            //checking if the file type is an image or not
+            if (check(file)) {
+              //create a string of the given file object
+              let imgLink = URL.createObjectURL(file);
+              //creating a new image tag
+              let imgTag = document.createElement("img");
+              //adding imgLink to the new image tag source
+              imgTag.src = imgLink;
+              //append this new image tag to the drop area.
+              dropArea.appendChild(imgTag);
+              dropArea.classList.add("active");
+              dropArea.classList.remove("error");
+              text.innerText = "Drag and drop to upload file";
+            } else {
+              dropArea.classList.remove("active");
+              dropArea.classList.add("error");
+              text.innerText = "File type is not an image try again!";
+            }
+          };
+
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

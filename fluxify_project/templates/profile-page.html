@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/drag-and-drop-file-upload/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>profile-page</title>
+    <style>
+        .profile-dp-bio{
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            margin-top: 70px;
+        }
+        .bio-adress{
+            display: flex;
+            flex-direction: column;
+            padding-left: 20px;
+            justify-content: end;
+        }
+        .adress{
+            padding-top: 10px;
+        }
+        .profile-name{
+          padding-right: 200px;
+          margin-top: 10px;
+          margin-right: 200px;
+        }
+        .buttons-profile-page{
+           display: grid;
+              grid-template-columns: repeat(3, 1fr);
+        }
+        .images-profile-page{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+        }
+    </style>
+
+
+</head>
+<body>
+    <div class="header-logo-only">
+        <div class="inner-one">
+        </div>
+        <div class="inner-two">
+          <img class="Header-only-logo-img" src="images/fluxify logo-01.svg" alt="">
+        </div>
+        <div class="inner-three">
+        </div>
+    </div>
+    <div class="page">
+        <div class="profile-dp-bio">
+            <div class="profile-dp">
+                <img style="width: 86px;
+                            height: 86px;
+                            border-radius: 50%;
+                " src="images/naheel.jpg" alt="">
+            </div>
+            <div class="bio-adress">
+                <div class="bio">
+                    <p style="text-align: left;">Digital goodies designer @pixsellz 
+                        Everything is designed.</p>
+                </div>
+                <div class="adress">
+                    <h3>LOCATION/ADRESS</h3>
+                </div>
+            </div>
+        </div>
+        <div class="profile-name">
+            <h2>Naheel_pk</h2>
+        </div>
+        <div class="buttons-profile-page">
+            <div style="min-width: 250px;">
+                <button class="button-text">Edit Profile</button>
+            </div>
+            <div style="font-weight: 900;">
+                <button class="button-icon"><i class='bx bx-hash'></i></i></button>
+            </div>
+            <div>
+                <button class="button-icon"><i class='bx bxs-bookmark-star'></i></button>
+            </div>
+        </div>
+        <div class="images-profile-page">
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/naheel.jpg" alt="">
+            </div>
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/naheel.jpg" alt="">
+            </div>
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/naheel.jpg" alt="">
+            </div>
+
+
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/saleel.jpg" alt="">
+            </div>
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/saleel.jpg" alt="">
+            </div>
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/saleel.jpg" alt="">
+            </div>
+            
+
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/sahal.jpg" alt="">
+            </div>
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/sahal.jpg" alt="">
+            </div>
+            <div>
+                <img style="width: 100%;
+                            height: 100%;
+                            border-radius: 10px;
+                " src="images/sahal.jpg" alt="">
+            </div>
+        </div>
+        
+    </div>
+
+    {% block nav_button%}
+    {% include "nav_button.html" %}
+    {% endblock nav_button%}
+
+
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -18,7 +18,14 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
-urlpatterns = [
-    path('', views.home),
+urlpatterns = [ 
+    path('', views.home,name='home_page'),
+    path('settings', views.settings,name='settings_page'),
+    path('chat', views.chat,name='chat_page'),
+    path('list', views.list,name='list_page'),
+    path('profile', views.profile,name='profile_page'),
+    
+    
+
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.STATIC_ROOT)
