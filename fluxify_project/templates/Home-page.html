@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
     <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/main-pages/nav-button.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -16,7 +15,7 @@
 <body>
     <div class="header-logo-profile-search">
         <div class="lps-inner-one">
-          <img class="Header-logo-profile-img" src="images/fluxify logo-01.svg" alt="">
+          <img class="Header-logo-profile-img" src="{% static 'images/fluxify logo-01.svg' %}" alt="">
         </div>
         <div class="lps-inner-two">
           <input class="search-bar" type="text" placeholder="search">
@@ -202,28 +201,10 @@
         
     </div>
 
-    <nav>
-        <div class="nav-content">
-          <div class="toggle-btn">
-            <i class='bx bx-plus'></i>
-          </div>
-          <span style="--i:1;">
-            <a href="#"><i class='bx bxs-cog' ></i></a>
-          </span>
-          <span style="--i:2;">
-            <a href="#"><i class='bx bxs-plus-circle'></i></a>
-          </span>
-          <span style="--i:3;">
-            <a href="#"><i class='bx bxs-message-rounded'></i></i></a>
-          </span>
-          <span style="--i:4;">
-            <a href="#"><i class='bx bxs-user'></i></a>
-          </span>
-          <span style="--i:5;">
-            <a href="#"><i class='bx bxs-home'></i></i></a>
-          </span>
-        </div>
-      </nav>
+    {% block nav_button%}
+    {% include "nav_button.html" %}
+
+    {% endblock nav_button%}
 
 
 
