@@ -10,8 +10,6 @@ def settings(request):
 def chat(request):
     return render(request, 'chat-page.html')
 
-def list(request):
-    return render(request, 'listing-page.html')
 
 def profile(request):
     return render(request, 'profile-page.html')

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'styles/main-pages/profile-add.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/imageupload.css' %}">
     <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
     <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
 <body>
     <div class="header-logo-profile">
       <div class="lp-inner-one">
-        <img class="Header-logo-profile-img" src="images/fluxify logo-01.svg" alt="">
+        <img class="Header-logo-profile-img" src="{% static 'images/fluxify logo-01.svg' %}" alt="">
       </div>
       <div class="lp-inner-two">
       </div>
@@ -27,7 +27,8 @@
       </div>
     </div>
     <div class="page">
-        <div class="drop-area">
+      <form method="post" enctype="multipart/form-data">
+          <div class="drop-area">
             <i class="fa-solid fa-cloud-arrow-up"></i>
             <p>Drag and drop to upload file</p>
       
@@ -72,6 +73,7 @@
                         margin-top: -20px;">
                 <button class="button-icon-text">Post <i class='bx bxs-right-arrow'></i></i></button>
             </div>
+       </form>      
     </div>
 
     {% block nav_button%}
