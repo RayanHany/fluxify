@@ -25,6 +25,7 @@ urlpatterns = [
     path('profile', views.profile,name='profile_page'),
     
     
+    
 
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.STATIC_ROOT)
