@@ -14,5 +14,11 @@ def chat(request):
 def profile(request):
     return render(request, 'profile-page.html')
 
+def login(request):
+    return render(request, 'login-page.html')
+
+def signup(request):
+    return render(request, 'signup-page.html')
+
 
 

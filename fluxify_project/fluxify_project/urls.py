@@ -23,4 +23,4 @@ urlpatterns = [
     path('', include('fluxify_user.urls')),
     path('list', include('fluxify_post.urls')),
 ]
-urlpatterns += static(settings.MEDIA_URL,document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 

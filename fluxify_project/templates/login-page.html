@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/login-pages/general.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/login-pages/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>Login-Page-Mail</title>
+</head>
+<body>
+    <div class="page">
+        <div class="logo-image-login-Page">
+        <img style="height: 300px;                                                            
+        " src="{% static 'images/fluxify logo-01.svg' %}" alt="">
+        </div>
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: #c7c3c3;">
+                Welcome</h1>
+            <p style="font-size: 14px;
+            color: #c7c3c3;
+            ">Enter Your Email or Phone  To Continue. </p>
+        </div>
+        <div>
+            <input type="email"  class="input-short"placeholder="Email"/>
+        </div>
+        <div>
+            <input type="password"class="input-short"placeholder="Password"/>
+        </div>
+        <div style="margin-left: 150px;
+                    margin-top: -40px;">
+            <button onclick="verifyEmail()" class="button-icon-text">Sign In</button>
+        </div>
+        <div style="margin-top: 20px;">
+            <p style="color: #c7c3c3;
+            font-size: 14px;">Don't have an account? 
+            <a href="{% url 'signup_page' %}" style="color: #c7c3c3;
+             font-weight: bold;">Sign Up</a></p>
+        </div>     
+    </div>
+
+
+
+    <script>
+       
+    </script>
+</body>
+</html>
