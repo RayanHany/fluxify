@@ -16,52 +16,48 @@
 </head>
 <body>
     <div class="page">
-        <div style="margin-right: 50px;" class="drop-area">
-            <i class='bx bxs-user-plus'></i>
-            <p></p>
-      
-            <span></span>
-            <button id="browse-file-btn">Browse Files</button>
-            <input type="file" id="input-file" hidden />
+        <form method="post" id="signup" enctype="multipart/form-data">
+            {% csrf_token %}
+                <input type="file" name="profile_photo" id="">
+                <div style="margin-top: 330px;">
+                <div>
+                    <input minlength="4" maxlength="15" name="user_name" type="text"class="input-short"placeholder="User Name"/>
+                </div>
+                <div>
+                    <input name="mail_id" type="email"class="input-short"placeholder="Mail "/>
+                </div>
+                <div>
+                    <input minlength="8" maxlength="16" name="password" type="password"class="input-short"placeholder="password"/>
+                </div>
+                <div>
+                    <input minlength="10" maxlength="10" name="phone_no" type="text"class="input-short"placeholder="Phone Number"/>
+                </div>
+                <div>
+                    <input minlength="6" maxlength="6" name="pin_code" type="text"class="input-short"placeholder="Pin Code"/>
+                </div>
+                <div>
+                    <input name="address" type="text"class="input-short"placeholder="Adress"/>
+                </div>
+                <div style="margin-left: 90px;
+                            margin-top: -50px;">
+                    <button type="submit"  class="button-icon-text">Sign Up</button>
+                </div>
             </div>
-            <div style="margin-top: 330px;">
-            <div>
-                <input type="text"class="input-short"placeholder="User Name"/>
-            </div>
-            <div>
-                <input type="email"class="input-short"placeholder="Mail "/>
-            </div>
-            <div>
-                <input type="password"class="input-short"placeholder="password"/>
-            </div>
-            <div>
-                <input type="text"class="input-short"placeholder="Phone Number"/>
-            </div>
-            <div>
-                <input type="text"class="input-short"placeholder="Pin Code"/>
-            </div>
-            <div>
-                <input type="text"class="input-short"placeholder="Bio (Description)"/>
-            </div>
-            <div style="margin-left: 90px;
-                        margin-top: -50px;">
-                <button class="button-icon-text">Sign Up</button>
-            </div>
-          </div>
 
-          <div style="margin-top: 20px;">
-            <p style="color: #c7c3c3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 80px;
-            font-size: 14px;">Already have an account? 
-            <a href="{% url 'login_page' %}" style="color: #c7c3c3;
-             font-weight: bold;
-             margin-right: 40px;
-             text-align: center;">Sign In</a></p>
-        </div>   
+            <div style="margin-top: 20px;">
+                <p style="color: #c7c3c3;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                margin-bottom: 80px;
+                font-size: 14px;">Already have an account? 
+                <a href="{% url 'login_page' %}" style="color: #c7c3c3;
+                font-weight: bold;
+                margin-right: 40px;
+                text-align: center;">Sign In</a></p>
+            </div> 
+        </form>    
     </div>
     <script src="{% static 'scripts/login-pages/script-upload.js' %}"></script>
 </body>

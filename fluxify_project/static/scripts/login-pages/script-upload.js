@@ -4,7 +4,7 @@ const button = document.getElementById("browse-file-btn");
 const input = document.getElementById("input-file");
 
 //handling input click event using button
-button.addEventListener("click", () => input.click());
+button.addEventListener("click", () => input.click());    
 
 //adding an event listener to the input
 input.addEventListener("change", (e) => {
