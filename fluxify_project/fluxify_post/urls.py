@@ -21,5 +21,4 @@ from . import views
 urlpatterns = [
     path('list', views.list,name='list_page'),
 
-]
-urlpatterns += static(settings.MEDIA_URL,document_root=settings.STATIC_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

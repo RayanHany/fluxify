@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from fluxify_user.models import user_custome
 from django.contrib.auth.hashers import check_password, make_password
-
+from fluxify_post.models import post_mark
 # Home page view
 def home(request):
-    return render(request, 'home-page.html')
-
+    post = post_mark.objects.all()
+    return render(request, 'Home-page.html', {'post': post})
+        
 # Settings page view
 def settings(request):
     return render(request, 'settings-page.html')

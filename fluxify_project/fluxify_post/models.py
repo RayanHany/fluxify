@@ -2,7 +2,7 @@ from django.db import models
 from fluxify_user.models import user_custome
 # Create your models here.
 class post_mark(models.Model):
-    post_image = models.ImageField(upload_to='media/')
+    post_image = models.ImageField(upload_to='posts/images/')
     posted_by = models.ForeignKey(user_custome, null=True, on_delete=models.CASCADE, related_name='posts')
     category = models.CharField(max_length=100)
     post_location = models.CharField(max_length=100)

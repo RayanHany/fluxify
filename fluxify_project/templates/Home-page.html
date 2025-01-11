@@ -25,176 +25,51 @@
         </div>
       </div>
     <div class="page">
-        <div class="post-card">
-            <div class="post-card-head">
-              <div class="post-card-dp-icon">
-                <img class="post-card-dp-img" src="images/naheel.jpg" alt="">
-              </div>
-              <div class="post-card-name-location">
-                <div class="post-card-name">
-                  Naheel_pk
-                </div>
-                <div class="post-card-location">
-                  Thayekod,Malappuram,Kerala
-                </div>
-              </div>
-            </div>
-            <div class="post-card-body">
-              <img class="post-card-body-img" src="images/naheel.jpg" alt="">
-            </div>
-            <div class="post-card-foot">
-              <div class="post-card-space">
-                
-              </div>
-              <div class="post-card-enquiry">
-                <button class="button-text">ENQUERY</button>
-              </div>
-              <div class="post-card-like">
-                <i style="font-size:30px;" 
-                class='bx bxs-heart'></i>
-              </div>
-              <div class="post-card-share">
-                <i style="font-size:30px;"
-                 class='bx bxs-share-alt'></i>
-              </div>
-            </div>
 
+      {% block content %}
+        {% for post_obj in post %}
 
-            <div class="post-card-head">
-                <div class="post-card-dp-icon">
-                  <img class="post-card-dp-img" src="images/naheel.jpg" alt="">
-                </div>
-                <div class="post-card-name-location">
-                  <div class="post-card-name">
-                    Naheel_pk
+            <div class="post-card">
+                <div class="post-card-head">
+                  <div class="post-card-dp-icon">
+                    <img class="post-card-dp-img" src="{% static 'images/default-avatar.png' %}" alt="">
                   </div>
-                  <div class="post-card-location">
-                    Thayekod,Malappuram,Kerala
+                  <div class="post-card-name-location">
+                    <div class="post-card-name">
+                      <p> {{post_obj.posted_by}} </p>
+                    </div>
+                    <div class="post-card-location">
+                    <p> {{post_obj.post_location}} </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="post-card-body">
-                <img class="post-card-body-img" src="images/naheel.jpg" alt="">
-              </div>
-              <div class="post-card-foot">
-                <div class="post-card-space">
-                  
+                <div class="post-card-body">
+                  {% if post_obj.post_image %}
+                  <img class="post-card-body-img" src="{{ post_obj.post_image.url }}" alt="">
+                  {% else %}
+                  <img class="post-card-body-img" src="{% static 'images/default-image.png' %}" alt="No Image">
+                  {% endif %}
                 </div>
-                <div class="post-card-enquiry">
-                  <button class="button-text">ENQUERY</button>
-                </div>
-                <div class="post-card-like">
-                  <i style="font-size:30px;" 
-                  class='bx bxs-heart'></i>
-                </div>
-                <div class="post-card-share">
-                  <i style="font-size:30px;"
-                   class='bx bxs-share-alt'></i>
-                </div>
-              </div>
+                  <div class="post-card-foot">
+                    <div class="post-card-space">
+                    </div>
+                    <div class="post-card-enquiry">
+                      <button class="button-text">ENQUERY</button>
+                    </div>
+                    <div class="post-card-like">
+                      <i style="font-size:30px;" 
+                      class='bx bxs-heart'></i>
+                    </div>
+                    <div class="post-card-share">
+                      <i style="font-size:30px;"
+                      class='bx bxs-share-alt'></i>
+                    </div>
+                  </div>   
+             </div>
 
+        {% endfor %}
+      {% endblock content %}
 
-              <div class="post-card-head">
-                <div class="post-card-dp-icon">
-                  <img class="post-card-dp-img" src="images/naheel.jpg" alt="">
-                </div>
-                <div class="post-card-name-location">
-                  <div class="post-card-name">
-                    Naheel_pk
-                  </div>
-                  <div class="post-card-location">
-                    Thayekod,Malappuram,Kerala
-                  </div>
-                </div>
-              </div>
-              <div class="post-card-body">
-                <img class="post-card-body-img" src="images/naheel.jpg" alt="">
-              </div>
-              <div class="post-card-foot">
-                <div class="post-card-space">
-                  
-                </div>
-                <div class="post-card-enquiry">
-                  <button class="button-text">ENQUERY</button>
-                </div>
-                <div class="post-card-like">
-                  <i style="font-size:30px;" 
-                  class='bx bxs-heart'></i>
-                </div>
-                <div class="post-card-share">
-                  <i style="font-size:30px;"
-                   class='bx bxs-share-alt'></i>
-                </div>
-              </div>
-
-
-              <div class="post-card-head">
-                <div class="post-card-dp-icon">
-                  <img class="post-card-dp-img" src="images/naheel.jpg" alt="">
-                </div>
-                <div class="post-card-name-location">
-                  <div class="post-card-name">
-                    Naheel_pk
-                  </div>
-                  <div class="post-card-location">
-                    Thayekod,Malappuram,Kerala
-                  </div>
-                </div>
-              </div>
-              <div class="post-card-body">
-                <img class="post-card-body-img" src="images/naheel.jpg" alt="">
-              </div>
-              <div class="post-card-foot">
-                <div class="post-card-space">
-                  
-                </div>
-                <div class="post-card-enquiry">
-                  <button class="button-text">ENQUERY</button>
-                </div>
-                <div class="post-card-like">
-                  <i style="font-size:30px;" 
-                  class='bx bxs-heart'></i>
-                </div>
-                <div class="post-card-share">
-                  <i style="font-size:30px;"
-                   class='bx bxs-share-alt'></i>
-                </div>
-              </div>
-
-
-              <div class="post-card-head">
-                <div class="post-card-dp-icon">
-                  <img class="post-card-dp-img" src="images/naheel.jpg" alt="">
-                </div>
-                <div class="post-card-name-location">
-                  <div class="post-card-name">
-                    Naheel_pk
-                  </div>
-                  <div class="post-card-location">
-                    Thayekod,Malappuram,Kerala
-                  </div>
-                </div>
-              </div>
-              <div class="post-card-body">
-                <img class="post-card-body-img" src="images/naheel.jpg" alt="">
-              </div>
-              <div class="post-card-foot">
-                <div class="post-card-space">
-                  
-                </div>
-                <div class="post-card-enquiry">
-                  <button class="button-text">ENQUERY</button>
-                </div>
-                <div class="post-card-like">
-                  <i style="font-size:30px;" 
-                  class='bx bxs-heart'></i>
-                </div>
-                <div class="post-card-share">
-                  <i style="font-size:30px;"
-                   class='bx bxs-share-alt'></i>
-                </div>
-              </div>
-          </div>
         
     </div>
 
