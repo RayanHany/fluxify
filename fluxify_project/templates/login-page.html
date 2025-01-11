@@ -14,34 +14,50 @@
 </head>
 <body>
     <div class="page">
-        <div class="logo-image-login-Page">
+        <div style="display: flex;
+                    align-items: center;
+                    margin-right: 40px;" class="logo-image-login-Page">
         <img style="height: 300px;                                                            
         " src="{% static 'images/fluxify logo-01.svg' %}" alt="">
         </div>
-        <div style="margin-bottom: 30px;">
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li style="margin-right: 80px;" class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+        <div style="margin-bottom: 30px;
+             margin-right: 50px;">
             <h1 style="color: #c7c3c3;">
                 Welcome</h1>
             <p style="font-size: 14px;
             color: #c7c3c3;
             ">Enter Your Email or Phone  To Continue. </p>
         </div>
-        <div>
-            <input type="email"  class="input-short"placeholder="Email"/>
-        </div>
-        <div>
-            <input type="password"class="input-short"placeholder="Password"/>
-        </div>
-        <div style="margin-left: 150px;
-                    margin-top: -40px;">
-            <button onclick="verifyEmail()" class="button-icon-text">Sign In</button>
-        </div>
-        <div style="margin-top: 20px;">
-            <p style="color: #c7c3c3;
-            font-size: 14px;">Don't have an account? 
-            <a href="{% url 'signup_page' %}" style="color: #c7c3c3;
-             font-weight: bold;">Sign Up</a></p>
-        </div>     
+
+        <form method="post" id="login" enctype="multipart/form-data"  >
+        {% csrf_token %}
+            <div>
+                <input name="mail_id" type="email"  class="input-short"placeholder="Mail"/>
+            </div>
+            <div>
+                <input name="password" minlength="8" type="password"class="input-short"placeholder="Password"/>
+            </div>
+            <div style="margin-left: 100px;
+                        margin-top: -40px;">
+                <button type="submit" name="login" class="button-icon-text">Sign In</button>
+            </div>
+            <div style="margin-top: 20px;
+                        margin-left: 20px;">
+                <p style="color: #c7c3c3;
+                font-size: 14px;">Don't have an account? 
+                <a href="{% url 'signup_page' %}" style="color: #c7c3c3;
+                font-weight: bold;">Sign Up</a></p>
+            </div>       
+        </form> 
     </div>
+   
 
 
 

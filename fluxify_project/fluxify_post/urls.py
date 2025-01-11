@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from . import views
 urlpatterns = [
-    path('', views.list,name='list_page'),
+    path('list', views.list,name='list_page'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.STATIC_ROOT)

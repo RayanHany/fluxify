@@ -19,12 +19,13 @@ from django.conf.urls.static import static
 from django.conf import settings
 from . import views
 urlpatterns = [ 
-    path('', views.home,name='home_page'),
+    path('home', views.home,name='home_page'),
     path('settings', views.settings,name='settings_page'),
     path('chat', views.chat,name='chat_page'),
     path('profile', views.profile,name='profile_page'),
-    path('login', views.login,name='login_page'),
+    path('', views.login,name='login_page'),
     path('signup', views.signup,name='signup_page'),
+
     
     
     
