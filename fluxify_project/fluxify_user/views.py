@@ -5,19 +5,27 @@ from django.contrib.auth.hashers import check_password, make_password
 from fluxify_post.models import post_mark
 # Home page view
 def home(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
     post = post_mark.objects.all()
     return render(request, 'Home-page.html', {'post': post})
         
 # Settings page view
 def settings(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
     return render(request, 'settings-page.html')
 
 # Chat page view
 def chat(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
     return render(request, 'chat-page.html')
 
 # Profile page view
 def profile(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
     return render(request, 'profile-page.html')
 
 # Login page view
@@ -29,7 +37,8 @@ def login(request):
         try:
             user = user_custome.objects.get(mail_id=mail_id)  # Find user by email
             if check_password(password, user.password):  # Validate password
-                request.session['user_id'] = user.id  # Save user ID in session
+                request.session['is_logged_in'] = True
+                request.session['mail_id'] = mail_id
                 return redirect('home_page')  # Redirect to home page
             else:
                  error_message = "Invalid Password Please Try Again"
@@ -76,6 +85,8 @@ def signup(request):
                 address=address,
                 profile_photo=profile_photo,
             )
+            request.session['is_logged_in'] = True
+            request.session['mail_id'] = mail_id
             return redirect('home_page')
         except Exception as e:
             error_message = "Error occurred. Please try again."
@@ -85,6 +96,12 @@ def signup(request):
     return render(request, "signup-page.html")
 
 
+def user_logout(request):
+    if request.session.get('is_logged_in'):
+        # Clear session data
+        request.session.flush()  # Removes all session data
+        messages.success(request, 'You have successfully logged out.')
 
+    return redirect('login_page')
 
 
