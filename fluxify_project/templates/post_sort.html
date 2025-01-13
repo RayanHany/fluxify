@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
+</head>
+<body>
+  {% block header_search %}
+  {% include "header-search.html" %}
+  {% endblock header_search %}
+
+    <div class="page">
+      <div style="margin-bottom: 30px;
+                  margin-right: 30px;">
+        <input class="drop-down" list="Catagories" placeholder="Catagories">
+        <datalist id="Catagories">
+          <option value="Edge">
+          <option value="Firefox">
+          <option value="Chrome">
+          <option value="Opera">
+          <option value="Safari">
+        </datalist>
+      </div>
+
+      <div style="margin-bottom: 30px;
+                  margin-right: 30px;">
+        <input class="drop-down" list="Catagories" placeholder="Location">
+        <datalist id="Catagories">
+          <option value="Edge">
+          <option value="Firefox">
+          <option value="Chrome">
+          <option value="Opera">
+          <option value="Safari">
+        </datalist>
+      </div>
+
+      <div style="margin-bottom: 30px;
+                  margin-right: 30px;">
+        <input class="drop-down" list="Catagories" placeholder="Price">
+        <datalist id="Catagories">
+          <option value="Edge">
+          <option value="Firefox">
+          <option value="Chrome">
+          <option value="Opera">
+          <option value="Safari">
+        </datalist>
+      </div>
+
+      <div style="margin-bottom: 30px;
+                  margin-right: 30px;">
+        <input class="drop-down" list="Catagories" placeholder="Avg View">
+        <datalist id="Catagories">
+          <option value="Edge">
+          <option value="Firefox">
+          <option value="Chrome">
+          <option value="Opera">
+          <option value="Safari">
+        </datalist>
+      </div>
+      <div style="display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                  max-width: 200px;
+                  margin-right: 60px;">
+        <div style="max-width: 100px;
+                    margin-left: -30px;">
+          <a href="{% url 'home_page' %}">
+            <button class="button-text">Cancel</button>
+          </a>  
+        </div>
+        <div style="max-width: 100px;
+                    margin-left: 40px;">
+          <button class="button-text">Sort</button>
+        </div>          
+
+      </div>
+
+    </div>
+     
+{% block nav_button%}
+{% include "nav_button.html" %}
+{% endblock nav_button%}
+        
+</body>
+</html>

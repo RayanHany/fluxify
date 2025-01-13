@@ -13,22 +13,9 @@
     <title>Home-page</title>
 </head>
 <body>
-    <div class="header-logo-profile-search">
-        <div class="lps-inner-one">
-          <img class="Header-logo-profile-img" src="{% static 'images/fluxify logo-01.svg' %}" alt="">
-        </div>
-        <div class="lps-inner-two">
-          <input class="search-bar" type="text" placeholder="search">
-        </div>
-        <div class="lps-inner-three">
-          {% if user.profile_photo %}
-            <img class="profile-icon-heder" src="{{ user.profile_photo.url }}" alt="Profile Picture">
-          {% else %}
-            <img class="profile-icon-heder" src="{% static 'images/default-avatar.png' %}" alt="Default Profile">
-          {% endif %}
-        </div>
-        
-      </div>
+  {% block header_search %}
+  {% include "header-search.html" %}
+  {% endblock header_search %}
     <div class="page">
 
       {% block content %}

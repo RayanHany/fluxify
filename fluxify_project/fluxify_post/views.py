@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import post_mark
 from fluxify_user.models import user_custome
+from django.http import JsonResponse
+from django.db.models import Q
 
 # Create your views here.
 def list(request):
@@ -33,5 +35,23 @@ def list(request):
             estimate_view=estimate_view,
         )
         post.save()
+        # Update user's role to 'publisher' if it's not already
+        if user.user_role != 'publisher':
+            user.user_role = 'publisher'
+            user.save()  # Save changes to the database
         return redirect('home_page')  # Redirect after saving the post
     return render(request, 'listing-page.html')
+
+
+
+def post_search(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+    return render(request, 'post_search.html')
+
+
+
+def post_sort(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+    return render(request, 'post_sort.html')

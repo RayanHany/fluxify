@@ -13,17 +13,24 @@
     <title>chat-page</title>
 </head>
 <body>
-    <div class="header-logo-profile-search">
-        <div class="lps-inner-one">
-          <img class="Header-logo-profile-img" src="{% static 'images/fluxify logo-01.svg' %}" alt="">
-        </div>
-        <div class="lps-inner-two">
-          <input class="search-bar" type="text" placeholder="search">
-        </div>
-        <div class="lps-inner-three">
-          <img class="profile-icon-heder" src="images/naheel.jpg" alt="">
-        </div>
-      </div>
+  <div class="header-logo-profile-search">
+    <div class="lps-inner-one"><a href="{% url 'home_page' %}">
+      <img  class="Header-logo-profile-img" src="{% static 'images/fluxify logo-01.svg' %}" alt="">
+    </a>
+    </div>
+    <div class="lps-inner-two">
+      <input class="search-bar" type="text" placeholder="search">
+    </div>
+    <div class="lps-inner-three">
+      {% if user.profile_photo %}
+      <a href="{% url 'profile_page' %}">
+        <img class="profile-icon-heder" src="{{ user.profile_photo.url }}" alt="Profile Picture">
+      {% else %}
+        <img class="profile-icon-heder" src="{% static 'images/default-avatar.png' %}" alt="Default Profile">
+      {% endif %}
+      </a>
+    </div>
+  </div>
     <div class="page-chat">
         <div class="chat-profile-card">
             <div class="chat-dp">

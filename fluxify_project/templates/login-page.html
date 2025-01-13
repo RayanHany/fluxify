@@ -58,10 +58,10 @@
         <form method="post" id="login" enctype="multipart/form-data"  >
         {% csrf_token %}
             <div>
-                <input name="mail_id" type="email"  class="input-short"placeholder="Mail"/>
+                <input name="mail_id" type="email" required  class="input-short"placeholder="Mail"/>
             </div>
             <div>
-                <input name="password" minlength="8" type="password"class="input-short"placeholder="Password"/>
+                <input name="password" minlength="8" required type="password"class="input-short"placeholder="Password"/>
             </div>
             <div style="margin-left: 100px;
                         margin-top: -40px;">

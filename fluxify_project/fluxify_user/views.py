@@ -14,7 +14,7 @@ def home(request):
     # Get the user object by matchig the email
     user=user_custome.objects.filter(mail_id=user_email).first() 
     
-    post = post_mark.objects.all()
+    post = post_mark.objects.all().order_by('?')  # Random order
     return render(request, 'Home-page.html', {'post': post, 'user': user})
         
 # Settings page view
