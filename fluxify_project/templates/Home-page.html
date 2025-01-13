@@ -21,18 +21,27 @@
           <input class="search-bar" type="text" placeholder="search">
         </div>
         <div class="lps-inner-three">
-          <img class="profile-icon-heder" src="images/naheel.jpg" alt="">
+          {% if user.profile_photo %}
+            <img class="profile-icon-heder" src="{{ user.profile_photo.url }}" alt="Profile Picture">
+          {% else %}
+            <img class="profile-icon-heder" src="{% static 'images/default-avatar.png' %}" alt="Default Profile">
+          {% endif %}
         </div>
+        
       </div>
     <div class="page">
 
       {% block content %}
         {% for post_obj in post %}
 
-            <div class="post-card">
+            <div class="post-card" style="margin-top: 30px;">
                 <div class="post-card-head">
                   <div class="post-card-dp-icon">
-                    <img class="post-card-dp-img" src="{% static 'images/default-avatar.png' %}" alt="">
+                  {% if post_obj.post_image %}
+                  <img class="post-card-dp-img" src="{{ post_obj.posted_by.profile_photo.url }}" alt="">
+                  {% else %}
+                  <img class="post-card-dp-img" src="{% static 'images/default-avatar.png' %}" alt="No Image">
+                  {% endif %}
                   </div>
                   <div class="post-card-name-location">
                     <div class="post-card-name">

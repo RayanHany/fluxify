@@ -44,6 +44,25 @@
             grid-gap: 20px;
             padding: 20px;
         }
+        .posts-grid .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        }
+
+        .post-card {
+            width: 30%;
+            text-align: center;
+            height: 30%;
+        }
+
+        .post-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
     </style>
 
 
@@ -59,25 +78,34 @@
         </div>
     </div>
     <div class="page">
-        <div class="profile-dp-bio">
+        <div style="margin-right: 158px;" class="profile-dp-bio">
             <div class="profile-dp">
-                <img style="width: 86px;
-                            height: 86px;
-                            border-radius: 50%;
-                " src="images/naheel.jpg" alt="">
+                {% if user.profile_photo %}
+                    <img style="width: 86px;
+                    height: 86px;
+                    border-radius: 50%;" 
+                     src="{{ user.profile_photo.url }}" alt="Profile Picture">
+                {% else %}
+                    <img style="width: 86px;
+                    height: 86px;
+                    border-radius: 50%;" 
+                 src="{% static 'images/default-avatar.png' %}" alt="Default Profile">
+                {% endif %}
             </div>
             <div class="bio-adress">
                 <div class="bio">
-                    <p style="text-align: left;">Digital goodies designer @pixsellz 
-                        Everything is designed.</p>
+                    <p style="text-align: left;
+                              margin-bottom: 10px" > <i class='bx bx-current-location'></i>  {{ user.pin_code }}</p>
+                    <p style="text-align: left;"> <i class='bx bxs-phone-call' ></i>  {{ user.phone_no }}</p>
                 </div>
                 <div class="adress">
-                    <h3>LOCATION/ADRESS</h3>
+                    <h3>{{ user.address }}</h3>
                 </div>
             </div>
         </div>
-        <div class="profile-name">
-            <h2>Naheel_pk</h2>
+        <div style="padding-right: 10px;
+                    margin-right: 330px;" class="profile-name">
+            <h2 >{{ user.user_name }}</h2>
         </div>
         <div class="buttons-profile-page">
             <div style="min-width: 250px;">
@@ -90,64 +118,25 @@
                 <button class="button-icon"><i class='bx bxs-bookmark-star'></i></button>
             </div>
         </div>
-        <div class="images-profile-page">
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/naheel.jpg" alt="">
-            </div>
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/naheel.jpg" alt="">
-            </div>
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/naheel.jpg" alt="">
-            </div>
 
-
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/saleel.jpg" alt="">
-            </div>
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/saleel.jpg" alt="">
-            </div>
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/saleel.jpg" alt="">
-            </div>
-            
-
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/sahal.jpg" alt="">
-            </div>
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/sahal.jpg" alt="">
-            </div>
-            <div>
-                <img style="width: 100%;
-                            height: 100%;
-                            border-radius: 10px;
-                " src="images/sahal.jpg" alt="">
+        <div class="user-posts">
+            <h3 style="margin-bottom: 20px;" >#Your Listed Advertising Assets</h3>
+            <div class="posts-grid">
+                {% for post in user_posts %}
+                    {% if forloop.counter0|divisibleby:3 %}
+                    <div class="row">
+                    {% endif %}
+                        <div class="post-card">
+                            {% if post.post_image %}
+                                <img class="post-image" src="{{ post.post_image.url }}" alt="Post Image">
+                            {% else %}
+                                <img class="post-image" src="{% static 'images/default-image.png' %}" alt="Default Image">
+                            {% endif %}
+                        </div>
+                    {% if forloop.counter|divisibleby:3 or forloop.last %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
         

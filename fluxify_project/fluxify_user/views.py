@@ -7,8 +7,15 @@ from fluxify_post.models import post_mark
 def home(request):
     if not request.session.get('is_logged_in'):
         return redirect('login_page')
+    
+    # Retrieve the email from the session
+    user_email=request.session.get('mail_id')
+        
+    # Get the user object by matchig the email
+    user=user_custome.objects.filter(mail_id=user_email).first() 
+    
     post = post_mark.objects.all()
-    return render(request, 'Home-page.html', {'post': post})
+    return render(request, 'Home-page.html', {'post': post, 'user': user})
         
 # Settings page view
 def settings(request):
@@ -26,7 +33,17 @@ def chat(request):
 def profile(request):
     if not request.session.get('is_logged_in'):
         return redirect('login_page')
-    return render(request, 'profile-page.html')
+    
+    # Retrieve the email from the session
+    user_email=request.session.get('mail_id')
+        
+    # Get the user object by matchig the email
+    user=user_custome.objects.filter(mail_id=user_email).first() 
+
+     # Get all posts created by the logged-in user
+    user_posts = post_mark.objects.filter(posted_by=user)
+    
+    return render(request, 'profile-page.html', {'user': user,'user_posts':user_posts})
 
 # Login page view
 def login(request):
@@ -86,7 +103,7 @@ def signup(request):
                 profile_photo=profile_photo,
             )
             request.session['is_logged_in'] = True
-            request.session['mail_id'] = mail_id
+            request.session['mail_id'] = mail_id 
             return redirect('home_page')
         except Exception as e:
             error_message = "Error occurred. Please try again."

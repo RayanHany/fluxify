@@ -2,66 +2,89 @@ const dropArea = document.querySelector(".drop-area");
 const text = dropArea.querySelector("p");
 const button = document.getElementById("browse-file-btn");
 const input = document.getElementById("input-file");
+const form = document.getElementById("upload-form");
 
-//handling input click event using button
+// Handling input click event using button
 button.addEventListener("click", () => input.click());
 
-//adding an event listener to the input
+// Adding an event listener to the input
 input.addEventListener("change", (e) => {
-  //extracting a file from an event object
   let file = e.target.files[0];
-  //calling upload function
   upload(file);
 });
 
-//if user drag file over drop area stop default functionality
+// If user drags a file over drop area, stop default functionality
 dropArea.addEventListener("dragover", (e) => e.preventDefault());
 
-//When a user drops a file, the file is uploaded.
+// When a user drops a file, handle the upload
 dropArea.addEventListener("drop", (e) => {
-  //stops default functionality
   e.preventDefault();
-  //extraction of a file from a drop event
   let file = e.dataTransfer.files[0];
-  //calling upload function
   upload(file);
 });
 
-//function to check the image type. return 'true' or 'false'
+// Function to check the image type
 const check = (file) => {
   let extensions = ["image/png", "image/jpg", "image/jpeg"];
-  if (extensions.includes(file.type)) return true;
-
-  return false;
+  return extensions.includes(file.type);
 };
 
-//function to remove a previous image
+// Function to clear previous images
 const clear = () => {
   let img = dropArea.querySelector("img");
   if (img) dropArea.removeChild(img);
 };
 
-//function to upload image
+// Function to upload image
 const upload = (file) => {
-  //calling clear function first
   clear();
 
-  //checking if the file type is an image or not
   if (check(file)) {
-    //create a string of the given file object
+    // Preview image
     let imgLink = URL.createObjectURL(file);
-    //creating a new image tag
     let imgTag = document.createElement("img");
-    //adding imgLink to the new image tag source
     imgTag.src = imgLink;
-    //append this new image tag to the drop area.
     dropArea.appendChild(imgTag);
     dropArea.classList.add("active");
     dropArea.classList.remove("error");
     text.innerText = "Drag and drop to upload file";
+
+    // Submit image to the server
+    const formData = new FormData();
+    formData.append("image", file);
+
+    fetch("/upload/", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-CSRFToken": getCSRFToken(), // Ensure CSRF token is included
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   } else {
     dropArea.classList.remove("active");
     dropArea.classList.add("error");
-    text.innerText = "File type is not an image try again!";
+    text.innerText = "File type is not an image. Try again!";
   }
 };
+
+// Function to get CSRF token from cookies
+function getCSRFToken() {
+  let cookieValue = null;
+  let cookies = document.cookie.split(";");
+
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i].trim();
+    if (cookie.startsWith("csrftoken=")) {
+      cookieValue = cookie.substring("csrftoken=".length);
+      break;
+    }
+  }
+  return cookieValue;
+}

@@ -11,6 +11,7 @@ class post_mark(models.Model):
     estimate_view = models.IntegerField()
     created_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
         return f"{self.posted_by.user_name}"
 

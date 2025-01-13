@@ -12,7 +12,7 @@ class user_custome(models.Model):
     ]
     
     mail_id=models.CharField(max_length=200,unique=True)
-    password=models.CharField( max_length=50,validators=[MinLengthValidator(8)])
+    password=models.CharField( max_length=100,validators=[MinLengthValidator(8)])
     user_role = models.CharField(max_length=20, choices=USER_ROLES, default='advertiser')
     user_name=models.CharField(max_length=200,unique=True)
     phone_no=models.CharField(max_length=10,unique=True)

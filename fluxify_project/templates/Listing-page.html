@@ -23,20 +23,21 @@
       <div class="lp-inner-two">
       </div>
       <div class="lp-inner-three">
-        <img class="profile-icon-heder" src="images/naheel.jpg" alt="">
       </div>
     </div>
     <div class="page">
-      <form method="post" enctype="multipart/form-data">
+      <form method="post" id="upload-form" enctype="multipart/form-data">
         {% csrf_token %}
-          <div class="drop-area">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <p>Drag and drop to upload file</p>
       
-            <span>OR</span>
-            <button id="browse-file-btn">Browse Files</button>
-            <input type="file" id="input-file" hidden name="post_image" />
-          </div>
+        <div class="drop-area">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <p>Click Browse To upload Image</p>
+          <span></span>
+          <button id="browse-file-btn" type="button">Browse Files</button>
+          <input type="file" id="input-file" name="post_image" hidden />
+        </div>
+          
+          <!--<input type="file" id="input-file" name="post_image">-->
           <!-- From Here the input box inserted-->
           <div style="margin-top: 500px;
                 display: flex;
