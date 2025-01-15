@@ -15,6 +15,7 @@ def home(request):
     user=user_custome.objects.filter(mail_id=user_email).first() 
     
     post = post_mark.objects.all().order_by('?')  # Random order
+    
     return render(request, 'Home-page.html', {'post': post, 'user': user})
         
 # Settings page view
@@ -120,5 +121,6 @@ def user_logout(request):
         messages.success(request, 'You have successfully logged out.')
 
     return redirect('login_page')
+
 
 

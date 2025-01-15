@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>Document</title>
+</head>
+<body>
+    {% block header_search %}
+    {% include "header-search.html" %}
+    {% endblock header_search %}
+
+
+
+    <h2>Search Results for "{{ query }}"</h2>
+
+<h3>Posts</h3>
+{% if posts %}
+    <ul>
+        {% for post in posts %}
+            <li>
+                <img src="{% if post.post_image and post.post_image.url %}{{ post.post_image.url }}{% else %}{% static 'images/default-image.png' %}{% endif %}" alt="Post Image" width="100">
+                <p>Category: {{ post.category }}</p>
+                <p>Location: {{ post.post_location }}</p>
+                <p>Description: {{ post.post_description }}</p>
+                <p>Price: {{ post.avg_price }}</p>
+                <p>Estimated Reach: {{ post.estimate_view }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No matching posts found.</p>
+{% endif %}
+
+<h3>Users</h3>
+{% if users %}
+    <ul>
+        {% for user in users %}
+            <li>
+                <img src="{% if user.profile_photo and user.profile_photo.url %}{{ user.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="User Photo" width="100">
+                <p>Name: {{ user.user_name }}</p>
+                <p>Email: {{ user.mail_id }}</p>
+                <p>Address: {{ user.address }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No matching users found.</p>
+{% endif %}
+
+
+
+
+{% block nav_button%}
+{% include "nav_button.html" %}
+{% endblock nav_button%}
+</body>
+</html>

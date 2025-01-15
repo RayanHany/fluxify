@@ -54,4 +54,86 @@ def post_search(request):
 def post_sort(request):
     if not request.session.get('is_logged_in'):
         return redirect('login_page')
-    return render(request, 'post_sort.html')
+    
+    # Retrieve the email from the session
+    user_email=request.session.get('mail_id')
+        
+    # Get the user object by matchig the email
+    user=user_custome.objects.filter(mail_id=user_email).first() 
+    return render(request, 'post_sort.html' ,{'user':user })
+
+
+
+def sorted_posts(request):
+
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+    
+
+    # Retrieve the email from the session
+    user_email=request.session.get('mail_id')
+        
+    # Get the user object by matchig the email
+    user=user_custome.objects.filter(mail_id=user_email).first() 
+    
+    # Retrieve filtering and sorting criteria from GET parameters
+    category = request.GET.get('category', '')  # Default to empty string
+    location = request.GET.get('location', '')  # Default to empty string
+    price_order = request.GET.get('price', '')  # Can be 'asc' or 'desc'
+
+    # Start with all posts
+    posts = post_mark.objects.all()
+
+    # Apply filters if provided
+    if category:
+        posts = posts.filter(category__icontains=category)  # Filter by category (case-insensitive)
+    if location:
+        posts = posts.filter(post_location__icontains=location)  # Filter by location (case-insensitive)
+
+    # Apply sorting if provided
+    if price_order == 'asc':
+        posts = posts.order_by('avg_price')  # Sort by price (ascending)
+    elif price_order == 'desc':
+        posts = posts.order_by('-avg_price')  # Sort by price (descending)
+
+    # Render the sorted and filtered posts
+    return render(request, 'sorted-posts.html', {'user': user ,'posts': posts})
+
+
+
+def keyword_search(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+
+
+    query = request.GET.get('q', '')  # Retrieve the search keyword from the query string
+    posts = []
+    users1 = []
+
+    if query:
+        # Filter posts based on the search keyword
+        posts = post_mark.objects.filter(
+            Q(category__icontains=query) |
+            Q(post_location__icontains=query) |
+            Q(post_description__icontains=query)
+        )
+        
+        # Filter users based on the search keyword
+        users1 = user_custome.objects.filter(
+            Q(user_name__icontains=query) |
+            Q(mail_id__icontains=query) |
+            Q(address__icontains=query)
+        )
+
+        for user in users1:
+            if not user.profile_photo:  # If there's no profile photo
+                user.profile_photo = 'images/default-avatar.png'  # Set default image path
+
+            # Retrieve the email from the session
+            user_email=request.session.get('mail_id')
+                
+            # Get the user object by matchig the email
+            user=user_custome.objects.filter(mail_id=user_email).first()         
+    
+    # Render the search results page
+    return render(request, 'search_results.html', {'query': query, 'posts': posts, 'users': users1, 'user':user})

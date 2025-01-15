@@ -18,7 +18,16 @@ class user_custome(models.Model):
     phone_no=models.CharField(max_length=10,unique=True)
     pin_code=models.CharField(max_length=6)
     address=models.TextField()
-    profile_photo=models.ImageField(upload_to="images/",null=True)
+    profile_photo=models.ImageField(upload_to="images/",null=True, blank=True, default='/images/default-avatar.png')
+        # Property method to return the default image if no profile picture is uploaded
+    def get_profile_Photo(self):
+        if self.profile_Photo:
+            return self.profile_Photo.url
+        # Default image URL if no profile picture is uploaded
+        return '/static/images/default-avatar.png'
+
+    # Optionally, use this in the admin panel or other places
+    profile_Photo_url = property(get_profile_Photo)
 
     def __str__(self):
         return self.user_name

@@ -22,7 +22,11 @@ from . import views
 urlpatterns = [
     path('list', views.list,name='list_page'),
     path('posts_search', views.post_search, name='post_search'),
-    path('post_sort', views.post_sort, name='post_sort'),
+    path('post_sort', views.post_sort, name='post_sort'),  # Sorting page
+    path('sorted-posts', views.sorted_posts, name='sorted_posts'),  # Target page
+    path('search/', views.keyword_search, name='keyword_search'),
+
+
     
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
