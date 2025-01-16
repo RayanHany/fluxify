@@ -136,4 +136,4 @@ def keyword_search(request):
             user=user_custome.objects.filter(mail_id=user_email).first()         
     
     # Render the search results page
-    return render(request, 'search_results.html', {'query': query, 'posts': posts, 'users': users1, 'user':user})
+    return render(request, 'search_results.html', {'query': query, 'posts': posts, 'users1': users1, 'user':user})
