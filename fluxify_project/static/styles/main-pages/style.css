@@ -312,7 +312,7 @@
 
     }
     .search-bar{
-      width: 85%;
+      width: 475px;
       height: 40px;
       border-radius: 32px;
       padding-left:20px;
@@ -320,11 +320,11 @@
       transition: 0.15s;
     }
     .search-bar:hover{
-    width: 90%;
+    padding-right: 30px;
 
     }
     .search-bar:focus{
-      width: 100%;
+      padding-right: 50px;
       box-shadow: 0px 0px 6px rgb(255, 255, 255);
       border:none;
       outline: none;

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
-from django.contrib.auth.models import AbstractUser
+#from django.contrib.auth.models import AbstractUser
+from django import forms
 
 # Create your models here.
 class user_custome(models.Model):
@@ -61,6 +62,3 @@ class verification(models.Model):
     def __str__(self):
         return self.user.user_name
     
-    from django.contrib.auth.models import AbstractUser
-from django.db import models
-

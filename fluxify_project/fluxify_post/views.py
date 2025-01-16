@@ -105,35 +105,48 @@ def keyword_search(request):
     if not request.session.get('is_logged_in'):
         return redirect('login_page')
 
-
     query = request.GET.get('q', '')  # Retrieve the search keyword from the query string
     posts = []
     users = []
+    error_message = "An error occurred while processing your search. Please try again later."
 
-    if query:
-        # Filter posts based on the search keyword
-        posts = post_mark.objects.filter(
-            Q(category__icontains=query) |
-            Q(post_location__icontains=query) |
-            Q(post_description__icontains=query)
-        )
-        
-        # Filter users based on the search keyword
-        users = user_custome.objects.filter(
-            Q(user_name__icontains=query) |
-            Q(mail_id__icontains=query) |
-            Q(address__icontains=query)
-        )
+    try:
+        if query:
+            # Filter posts based on the search keyword
+            posts = post_mark.objects.filter(
+                Q(category__icontains=query) |
+                Q(post_location__icontains=query) |
+                Q(post_description__icontains=query)
+            )
+            
+            # Filter users based on the search keyword
+            users = user_custome.objects.filter(
+                Q(user_name__icontains=query) |
+                Q(mail_id__icontains=query) |
+                Q(address__icontains=query)
+            )
 
-        for user in users:
-            if not user.profile_photo:  # If there's no profile photo
-                user.profile_photo = 'images/default-avatar.png'  # Set default image path
+            for user in users:
+                if not user.profile_photo:  # If there's no profile photo
+                    user.profile_photo = 'images/default-avatar.png'  # Set default image path
 
             # Retrieve the email from the session
-            user_email=request.session.get('mail_id')
+            user_email = request.session.get('mail_id')
                 
-            # Get the user object by matchig the email
-            user=user_custome.objects.filter(mail_id=user_email).first()         
-    
+            # Get the user object by matching the email
+            user = user_custome.objects.filter(mail_id=user_email).first()
+
+    except Exception as e:
+        # Log the error (optional) and set the error message
+        print(f"Error during search: {e}")
+        error_message = "An unexpected error occurred while processing your search."
+
     # Render the search results page
-    return render(request, 'search_results.html', {'query': query, 'posts': posts, 'users': users, 'user':user})
+    return render(request, 'search_results.html', {
+        'query': query,
+        'posts': posts,
+        'users': users,
+        'user': user,
+        'error_message': error_message,
+    })
+

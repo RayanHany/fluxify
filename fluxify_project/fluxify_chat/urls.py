@@ -17,18 +17,10 @@ Including another URLconf
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from . import views
+from .import views
 urlpatterns = [ 
-    path('home', views.home,name='home_page'),
-    path('settings', views.settings,name='settings_page'),
-    path('profile', views.profile,name='profile_page'),
-    path('', views.login,name='login_page'),
-    path('signup', views.signup,name='signup_page'),
-    path('logout', views.user_logout,name='logout'),
-
-
-    
-    
+    path('chat', views.chat,name='chat_page'),
+    path('chat/<int:user>/', views.chat_view, name='chat'),  # Use <int:user> for integer    path('fetch-messages/<str:username>/', views.fetch_messages, name='fetch_messages'),
     
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

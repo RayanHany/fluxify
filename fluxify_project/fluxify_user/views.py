@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from fluxify_user.models import user_custome
 from django.contrib.auth.hashers import check_password, make_password
 from fluxify_post.models import post_mark
+from functools import wraps
+
 # Home page view
 def home(request):
     if not request.session.get('is_logged_in'):
@@ -24,11 +26,6 @@ def settings(request):
         return redirect('login_page')
     return render(request, 'settings-page.html')
 
-# Chat page view
-def chat(request):
-    if not request.session.get('is_logged_in'):
-        return redirect('login_page')
-    return render(request, 'chat-page.html')
 
 # Profile page view
 def profile(request):
@@ -112,6 +109,18 @@ def signup(request):
             return redirect('signup_page')
             
     return render(request, "signup-page.html")
+
+
+
+def login_required_custom(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        # Check if the user is logged in based on session
+        if not request.session.get('is_logged_in', False):
+            return redirect('login_page')  # Redirect to login page if not logged in
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
 
 
 def user_logout(request):

@@ -31,167 +31,29 @@
       </a>
     </div>
   </div>
-    <div class="page-chat">
-        <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
+  <div class="page-chat">
+    {% for user in users %}
+    <div class="chat-profile-card">
+        <div class="chat-dp">
+            {% if user.profile_photo %}
+            <img src="{{ user.profile_photo.url }}" alt="Profile Picture">
+            {% else %}
+            <img src="{% static 'images/default-avatar.png' %}" alt="Default Profile">
+            {% endif %}
+        </div>
+        <div class="chat-name-message">
+            <div class="chat-name">
+                <p>{{ user.username }}</p>
             </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
+            <div class="chat-message">
+                <p>{{ user.latest_message|default:"No messages yet" }}</p>
             </div>
-          </div>
-
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-profile-card">
-            <div class="chat-dp">
-              <img src="images/naheel.jpg" alt="">
-            </div>
-            <div class="chat-name-message">
-              <div class="chat-name">
-                <p>Naheel_pk</p>
-              </div>
-              <div class="chat-message">
-                <p>Hey! How are you?</p>
-              </div>
-            </div>
-          </div>
-        
+        </div>
+        <a href="{% url 'chat' user.id %}" class="chat-link">Message</a>
     </div>
+    {% endfor %}
+</div>
+
 
     {% block nav_button%}
     {% include "nav_button.html" %}

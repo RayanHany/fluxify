@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with {{ receiver.user_name }}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .chat-messages {
+            height: 400px;
+            overflow-y: scroll;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .chat-message {
+            margin: 10px 0;
+        }
+        .chat-message.sender {
+            text-align: right;
+        }
+        .chat-footer {
+            padding: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        .chat-footer input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .chat-footer button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Chat with {{ receiver.user_name }}
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            {% for message in messages %}
+                <div class="chat-message {% if message.sender == request.user %}sender{% else %}receiver{% endif %}">
+                    <strong>{{ message.sender.user_name }}:</strong> {{ message.content }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="message-input" placeholder="Type a message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const receiver = "{{ receiver.user_name }}";
+        const fetchMessages = () => {
+            $.get(`/fetch-messages/${receiver}/`, (data) => {
+                const chatMessages = $('#chat-messages');
+                chatMessages.empty();
+                data.messages.forEach(msg => {
+                    const messageClass = msg.sender === "{{ request.user.user_name }}" ? "sender" : "receiver";
+                    chatMessages.append(
+                        `<div class="chat-message ${messageClass}">
+                            <strong>${msg.sender}:</strong> ${msg.content}
+                        </div>`
+                    );
+                });
+                chatMessages.scrollTop(chatMessages.prop("scrollHeight"));
+            });
+        };
+
+        $('#send-button').click(() => {
+            const content = $('#message-input').val();
+            if (content.trim() !== "") {
+                $.post('/send-message/', JSON.stringify({
+                    receiver: receiver,
+                    content: content,
+                }), () => {
+                    $('#message-input').val("");
+                    fetchMessages();
+                });
+            }
+        });
+
+        // Auto-fetch messages every 5 seconds
+        setInterval(fetchMessages, 5000);
+    </script>
+</body>
+</html>
