@@ -108,7 +108,7 @@ def keyword_search(request):
 
     query = request.GET.get('q', '')  # Retrieve the search keyword from the query string
     posts = []
-    users1 = []
+    users = []
 
     if query:
         # Filter posts based on the search keyword
@@ -119,13 +119,13 @@ def keyword_search(request):
         )
         
         # Filter users based on the search keyword
-        users1 = user_custome.objects.filter(
+        users = user_custome.objects.filter(
             Q(user_name__icontains=query) |
             Q(mail_id__icontains=query) |
             Q(address__icontains=query)
         )
 
-        for user in users1:
+        for user in users:
             if not user.profile_photo:  # If there's no profile photo
                 user.profile_photo = 'images/default-avatar.png'  # Set default image path
 
@@ -136,4 +136,4 @@ def keyword_search(request):
             user=user_custome.objects.filter(mail_id=user_email).first()         
     
     # Render the search results page
-    return render(request, 'search_results.html', {'query': query, 'posts': posts, 'users1': users1, 'user':user})
+    return render(request, 'search_results.html', {'query': query, 'posts': posts, 'users': users, 'user':user})
