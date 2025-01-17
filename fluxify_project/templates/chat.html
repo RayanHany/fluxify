@@ -76,39 +76,60 @@
         </div>
     </div>
 
+    {% block nav_button%}
+    {% include "nav_button.html" %}
+    {% endblock nav_button%}
+
+
+
+
+
     <script>
-        const receiver = "{{ receiver.user_name }}";
+        const receiverId = "{{ receiver.user_name }}";
+
+        // Fetch messages from the server
         const fetchMessages = () => {
-            $.get(`/fetch-messages/${receiver}/`, (data) => {
+            $.get(`/fetch-messages/${receiverId}/`, (data) => {
                 const chatMessages = $('#chat-messages');
                 chatMessages.empty();
                 data.messages.forEach(msg => {
-                    const messageClass = msg.sender === "{{ request.user.user_name }}" ? "sender" : "receiver";
-                    chatMessages.append(
-                        `<div class="chat-message ${messageClass}">
+                    const currentUserName = "{{ request.user.user_name }}";
+                    const messageClass = messageClass = msg.sender === currentUserName ? "sender" : "receiver";
+                    chatMessages.append(`
+                        <div class="chat-message ${messageClass}">
                             <strong>${msg.sender}:</strong> ${msg.content}
-                        </div>`
-                    );
+                        </div>
+                    `);
                 });
                 chatMessages.scrollTop(chatMessages.prop("scrollHeight"));
             });
         };
 
+        // Send a new message
         $('#send-button').click(() => {
             const content = $('#message-input').val();
             if (content.trim() !== "") {
-                $.post('/send-message/', JSON.stringify({
-                    receiver: receiver,
-                    content: content,
-                }), () => {
-                    $('#message-input').val("");
-                    fetchMessages();
+                $.ajax({
+                    url: '/send-message/',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ receiver: receiverId, content: content }),
+                    success: () => {
+                        $('#message-input').val('');
+                        fetchMessages();
+                    },
+                    error: (xhr) => {
+                        alert(`Error: ${xhr.responseText}`);
+                    }
                 });
             }
         });
 
         // Auto-fetch messages every 5 seconds
         setInterval(fetchMessages, 5000);
+
+        // Initial fetch
+        fetchMessages();
     </script>
 </body>
 </html>

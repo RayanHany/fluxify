@@ -3,7 +3,9 @@ from django.http import JsonResponse
 from django.db.models import Q, Subquery, OuterRef
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import user_custome, Message
+from .models import Message
+from fluxify_user.models import user_custome
+from django.utils.timezone import now
 
 
 
@@ -65,8 +67,66 @@ def chat_view(request, user):
         Q(sender=receiver, receiver=current_user)
     ).order_by('timestamp')
 
+    print(f"Receiver username: {receiver}")
+
     # Render the chat template with receiver and messages
     return render(request, 'chat.html', {
         'receiver': receiver,
         'messages': messages,
     })
+
+
+
+# AJAX endpoint to send a message
+@csrf_exempt
+def send_message(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            receiver_username = data.get("receiver")
+            content = data.get("content")
+
+            sender = get_current_user(request)
+            if not sender:
+                return JsonResponse({"error": "User not logged in"}, status=401)
+
+            receiver = get_object_or_404(user_custome, user_name=receiver_username)
+
+            # Create and save the message
+            message = Message.objects.create(
+                sender=sender,
+                receiver=receiver,
+                content=content,
+                timestamp=now(),
+            )
+
+            return JsonResponse({"status": "success", "message_id": message.id}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+# AJAX endpoint to fetch new messages
+def fetch_messages(request, user):
+    if not request.session.get('is_logged_in'):
+        return JsonResponse({'error': 'User not authenticated'}, status=401)
+
+    current_user = get_current_user(request)
+    if not current_user:
+        return JsonResponse({'error': 'User not authenticated'}, status=401)
+
+    receiver = get_object_or_404(user_custome, id=user)
+
+    messages = Message.objects.filter(
+        Q(sender=current_user, receiver=receiver) |
+        Q(sender=receiver, receiver=current_user)
+    ).order_by('timestamp')
+
+    return JsonResponse({'messages': [
+        {
+            'sender': message.sender.user_name,
+            'receiver': message.receiver.user_name,
+            'content': message.content,
+            'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        } for message in messages
+    ]}, status=200)

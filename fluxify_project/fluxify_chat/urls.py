@@ -21,7 +21,8 @@ from .import views
 urlpatterns = [ 
     path('chat', views.chat,name='chat_page'),
     path('chat/<int:user>/', views.chat_view, name='chat'),  # Use <int:user> for integer    path('fetch-messages/<str:username>/', views.fetch_messages, name='fetch_messages'),
-    
+    path('send-message/', views.send_message, name='send_message'),
+    path('fetch-messages/<int:user>/', views.fetch_messages, name='fetch_messages'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
