@@ -20,11 +20,11 @@
       transition: 0.15s;
     }
     .search-bar:hover{
-    width: 90%;
+    width: 85.2%;
 
     }
     .search-bar:focus{
-      width: 100%;
+      width: 85.4%;
       box-shadow: 0px 0px 6px rgb(255, 255, 255);
       border:none;
       outline: none;
@@ -32,6 +32,27 @@
     .search-bar::placeholder{
       font-size: 16px;
 
+    }
+    .search-button-bar{
+      position:fixed;
+      font-weight: bolder;
+      font-size: 22px;
+      margin-left: -15px;
+      padding-top: 9px;
+      color: rgb(0, 0, 0);
+      margin-right: revert-layer;
+      margin-right: 182px;
+      background-color: rgb(255, 255, 255);
+      border: solid 2px rgb(0, 0, 0);
+      width: 50px;
+      border-radius: 32px;
+      right: 410px;
+      transition: 0.50s;
+    }
+    .search-button-bar:hover{
+      cursor: pointer;
+      background-color: rgb(217, 217, 217);
+      color: rgb(0, 0, 0);
     }
     </style>
 </head>
@@ -48,14 +69,8 @@
           <input required name="q" class="search-bar" type="text" placeholder="search">
         </div>
         <div class="lps-inner-three">
-          <button type="submit" 
-                  style="font-weight: bolder;
-                         font-size: 22px;
-                         margin-left: -15px;
-                         padding-top: 9px;
-                         color: rgb(12, 12, 12);
-                         margin-right: revert-layer;
-                         margin-right: 182px;" class="button-text">
+          <button class="search-button-bar" type="submit" 
+                  class="button-text">
              <i class='bx bx-search' ></i>
           </button>
       </form>

@@ -44,7 +44,13 @@ def chat(request):
         .order_by("-latest_message")
     )
 
-    return render(request, 'chat-page.html', {'users': users})
+    # Retrieve the email from the session
+    user_email=request.session.get('mail_id')
+        
+    # Get the user object by matchig the email
+    user=user_custome.objects.filter(mail_id=user_email).first() 
+
+    return render(request, 'chat-page.html', {'users': users, 'user': user})
 
 
 

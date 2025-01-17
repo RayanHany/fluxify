@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,83 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with {{ receiver.user_name }}</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .chat-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 50px auto;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .chat-header {
-            background-color: #007bff;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        .chat-messages {
-            height: 400px;
-            overflow-y: scroll;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-        .chat-message {
-            margin: 10px 0;
-        }
-        .chat-message.sender {
-            text-align: right;
-        }
-        .chat-footer {
-            padding: 10px;
-            display: flex;
-            gap: 5px;
-        }
-        .chat-footer input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .chat-footer button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'styles/sub-pages/chat.css' %}">
+
+    <title></title>
 </head>
-<body>
-    <div class="chat-container">
-        <div class="chat-header">
-            Chat with {{ receiver.user_name }}
-        </div>
-        <div class="chat-messages" id="chat-messages">
-            {% for message in messages %}
-                <div class="chat-message {% if message.sender == request.user %}sender{% else %}receiver{% endif %}">
-                    <strong>{{ message.sender.user_name }}:</strong> {{ message.content }}
+<body style="background-color: rgb(0, 0, 0);
+             font-family: 'Roboto', sans-serif;">
+    <div class="page">
+        <div class="chat-card">
+            <div class="chat-card-head">
+              <div class="chat-card-dp-icon">
+                <img class="chat-card-dp-img" src="{% if receiver.profile_photo %}{{ receiver.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="">
+              </div>
+              <div class="chat-card-name-location">
+                <div class="chat-card-name">
+                  <p>{{ receiver.user_name }}</p>
                 </div>
+                <div class="chat-card-location">
+                  <p>{{ receiver.address }}</p>
+                </div>
+              </div>
+            </div>
+
+
+
+            {% for message in messages %}
+            <div class="chat-card-body" id="chat-messages">
+              <div class="chat-body-user-profile-message">
+                <div class="chat-body-user-profile-img">
+                  <img class="image-profile-message" src="{% if message.sender.profile_photo %}{{ message.sender.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="">
+                </div>
+                <div class="chat-body-user-message">
+                  <p>
+                    {{ message.content }}
+                  </p>
+                </div>
+              </div>
+            </div>
             {% endfor %}
-        </div>
-        <div class="chat-footer">
-            <input type="text" id="message-input" placeholder="Type a message...">
-            <button id="send-button">Send</button>
+
+
+          <form action="">
+            <div class="chat-card-foot">
+              <div class="chat-card-space"> 
+              </div>
+              <div class="chat-card-message-text">
+                <input type="text" class="message-text-input" id="message-input" placeholder="Type a message...">
+              </div>
+              <div>
+                <button  id="send-button" class="chat-card-send-button">
+                  <i class='bx bxs-send'></i>
+                </button>
+              </div>
+           </form>    
+            </div>
+          </div>
         </div>
     </div>
 
     {% block nav_button%}
     {% include "nav_button.html" %}
     {% endblock nav_button%}
-
-
-
 
 
     <script>
@@ -131,5 +117,7 @@
         // Initial fetch
         fetchMessages();
     </script>
+
+
 </body>
 </html>
