@@ -24,7 +24,15 @@ def home(request):
 def settings(request):
     if not request.session.get('is_logged_in'):
         return redirect('login_page')
-    return render(request, 'settings-page.html')
+    
+    # Retrieve the email from the session
+    user_email=request.session.get('mail_id')
+        
+    # Get the user object by matchig the email
+    user=user_custome.objects.filter(mail_id=user_email).first() 
+
+
+    return render(request, 'settings-page.html', {'user': user})
 
 
 # Profile page view
@@ -132,4 +140,19 @@ def user_logout(request):
     return redirect('login_page')
 
 
+def user_b(request,id):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+    
+    # Get the user object by ID
+    user=user_custome.objects.get(id=id)
 
+    # Fetch posts of the given user using the related_name 'posts'
+    posts = user.posts.all()
+
+     # Pass both the user and posts to the template context
+    context = {'user': user, 'posts': posts}
+    
+
+    
+    return render(request, "user-b-profile-page.html",context)    

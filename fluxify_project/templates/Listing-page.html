@@ -24,20 +24,14 @@
     </style>
 </head>
 <body>
-    <div class="header-logo-profile">
-      <div class="lp-inner-one">
-        <img class="Header-logo-profile-img" src="{% static 'images/fluxify logo-01.svg' %}" alt="">
-      </div>
-      <div class="lp-inner-two">
-      </div>
-      <div class="lp-inner-three">
-      </div>
-    </div>
+    {% block header_search %}
+    {% include "header-search.html" %}
+    {% endblock header_search %}
     <div class="page">
       <form method="post" id="upload-form" enctype="multipart/form-data">
         {% csrf_token %}
       
-        <div class="drop-area">
+        <div style="z-index: 1;" class="drop-area">
           <i class="fa-solid fa-cloud-arrow-up"></i>
           <p>Click Browse To upload Image</p>
           <span></span>

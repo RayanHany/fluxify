@@ -25,6 +25,8 @@ urlpatterns = [
     path('post_sort', views.post_sort, name='post_sort'),  # Sorting page
     path('sorted-posts', views.sorted_posts, name='sorted_posts'),  # Target page
     path('search/', views.keyword_search, name='keyword_search'),
+    path('post_details/<int:id>/', views.post_details, name='post_details'),
+    
 
 
     

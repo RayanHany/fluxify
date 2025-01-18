@@ -15,7 +15,7 @@ def list(request):
         # Get the user object using the email
         user = user_custome.objects.get(mail_id=user_email)
 
-
+        
         # Get other post details from the form
         post_image = request.FILES.get('post_image')
         category = request.POST.get('category')
@@ -40,7 +40,15 @@ def list(request):
             user.user_role = 'publisher'
             user.save()  # Save changes to the database
         return redirect('home_page')  # Redirect after saving the post
-    return render(request, 'listing-page.html')
+    
+    # Retrieve the email from the session
+    user_email = request.session.get('mail_id')
+        
+    # Get the user object using the email
+    user = user_custome.objects.get(mail_id=user_email)
+
+    
+    return render(request, 'listing-page.html',{'user': user})
 
 
 
@@ -150,3 +158,19 @@ def keyword_search(request):
         'error_message': error_message,
     })
 
+
+
+def post_details(request,id):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+    post=post_mark.objects.get(id=id)
+
+    # Retrieve the email from the session
+    user_email=request.session.get('mail_id')
+        
+    # Get the user object by matchig the email
+    user=user_custome.objects.filter(mail_id=user_email).first() 
+
+    context = {'user': user,'post': post}
+
+    return render(request, 'post-detailed-page.html',context)

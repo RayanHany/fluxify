@@ -63,6 +63,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     
+    
     </style>
 
 
@@ -108,22 +109,25 @@
             <h2 >{{ user.user_name }}</h2>
         </div>
         <div class="buttons-profile-page">
-                <div style="min-width: 250px;">
-                </div>
-            <div style="font-weight: 900;">
-                <a href="{% url 'profile_page' %}">
-                <button style="background-color: rgb(145, 145, 145);" class="button-icon"><i class='bx bx-hash'></i></i></button>
+            <div style="min-width: 250px;">
+                <a href="{% url 'chat' user.id %}">
+                    <button style="background-color: rgb(255, 255, 255);
+                                    width: 60%;
+                                    margin-left: 0px;" class="button-icon">Message <i class='bx bxs-message-square'></i></button>
                 </a>
             </div>
+            <div style="font-weight: 900;">
+                
+            </div>
             <div>
-                <button class="button-icon"><i class='bx bxs-bookmark-star'></i></button>
+                
             </div>
         </div>
 
         <div class="user-posts">
-            <h3 style="margin-bottom: 20px;" >#Your Listed Advertising Assets</h3>
+            <h3 style="margin-bottom: 20px;" ># {{ user.user_name }} Listed Advertising Assets</h3>
             <div class="posts-grid">
-                {% for post in user_posts %}
+                {% for post in user.posts.all %}
                     {% if forloop.counter0|divisibleby:3 %}
                     <div class="row">
                     {% endif %}

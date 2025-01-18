@@ -24,13 +24,17 @@
             <div class="post-card" style="margin-top:30px;">
                 <div class="post-card-head">
                   <div class="post-card-dp-icon">
+                    <a href="{% url 'user_b_profile' post_obj.posted_by.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
                     <img class="post-card-dp-img" 
                       src="{% if post_obj.posted_by.profile_photo %}{{ post_obj.posted_by.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
                       alt="No Image">
+                    </a>  
                   </div>
                   <div class="post-card-name-location">
                     <div class="post-card-name">
-                      <p> {{post_obj.posted_by}} </p>
+                      <a href="{% url 'user_b_profile' post_obj.posted_by.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
+                        <p> {{post_obj.posted_by}} </p>
+                      </a>  
                     </div>
                     <div class="post-card-location">
                     <p> {{post_obj.post_location}} </p>
@@ -48,7 +52,9 @@
                     <div class="post-card-space">
                     </div>
                     <div class="post-card-enquiry">
-                      <button class="button-text">ENQUERY</button>
+                      <a href="{% url 'chat' post_obj.posted_by.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
+                        <button class="button-text">ENQUERY</button>
+                      </a>  
                     </div>
                     <div class="post-card-like">
                       <i style="font-size:30px;" 
