@@ -28,25 +28,31 @@
                 </div>
               </div>
             </div>
-
-
-
-            {% for message in messages %}
-            <div class="chat-card-body" id="chat-messages">
-              <div class="chat-body-user-profile-message">
-                <div class="chat-body-user-profile-img">
-                  <img class="image-profile-message" src="{% if message.sender.profile_photo %}{{ message.sender.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="">
-                </div>
-                <div class="chat-body-user-message">
-                  <p>
-                    {{ message.content }}
-                  </p>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-
-
+                  {% for message in messages %}
+                  <div class="chat-card-body" id="chat-messages">
+                    <div class="chat-body-user-profile-message">
+                      <div class="chat-body-user-profile-img">
+                        <img class="image-profile-message" src="{% if message.sender.profile_photo %}{{ message.sender.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="">
+                      </div>
+                      <div class="chat-body-user-message">
+                        <p>
+                          {{ message.content }}
+                        </p>
+                        <div class="messages-time">
+                          <p style="font-size: 8px;">{{ message.timestamp }}</p>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  {% endfor %}
+                  <div style="margin-top: 100px;
+                              background-color: black;
+                              color: black;">
+                      <p>
+                        heyyyy
+                      </p>
+                  </div>
           <form action="">
             <div class="chat-card-foot">
               <div class="chat-card-space"> 

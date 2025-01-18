@@ -179,10 +179,10 @@
   .settings-button{
     background: white;
     display: flex;
-    width: 275px;
+    width: 475px;
     border-radius: 32px;
     border: none;
-    padding: 5px 20px 5px 20px;
+    padding: 10px 20px 10px 20px;
     font-size: medium;
     font-weight: 600;
     transition: 0.15s;
@@ -191,8 +191,8 @@
 
   }
   .settings-button:hover{
-    padding: 5px 25px 5px 25px;
-    width: 280px;
+    padding: 10px 25px 10px 25px;
+    width: 480px;
     cursor: pointer;
   }
   .settings-button:active{

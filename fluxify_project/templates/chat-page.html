@@ -29,7 +29,7 @@
         }
 
         .view-chat-card{
-            width: 500px;
+            width: 450px;
             top: 1px;
             background-color: rgb(26, 26, 26);
             display: flex;
@@ -39,7 +39,7 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 10px;
-            border-radius: 50px;
+            border-radius: 50px 50px 50px 50px;
             transition: 0.60s;
    
   }
@@ -63,31 +63,35 @@
   
   }
   .view-chat-card-dp-img{
-    max-width: 65px;
-    max-height: 65px;
-    height: 65px;
-    width: 65px;
+    max-width: 55px;
+    max-height: 55px;
+    height: 55px;
+    width: 55px;
     border-radius: 50%;
   }
   .view-chat-card-name-location{
     display: flex;
     flex-direction: column;
+    width: 350px;
     margin-left: 10px;
   }
   .view-chat-card-name{
     color: white;
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 600;
     height: 30px;
-    width: 320px;
+    width: 220px;
     margin-bottom: 3px;
   }
   .view-chat-card-location{
-    margin-top: 10px;
-
+    margin-top: -5px;
     color: white;
-    font-size: 13px;
+    font-size: 10px;
   } 
+  .view-chat-card-message{
+    font-size: 10px;
+    width: 100px;
+  }
     </style>
 </head>
 <body>
@@ -115,7 +119,8 @@
                         <p>{{ user.address }}</p>
                     </div>
                 </div>
-                <div style="padding-right:-30px;" class="view-chat-card-location">
+                <div style="padding-right:-30px;" class="view-chat-card-message">
+                    <i class='bx bxs-message-square'></i>
                     <p>{{ user.latest_message|default:"No messages yet" }}</p>
                 </div>
             </div>
