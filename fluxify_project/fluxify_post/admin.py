@@ -9,5 +9,5 @@ Review = apps.get_model('fluxify_post', 'Review')
 # Register your models here.
 @admin.register(post_mark)
 class PostMarkAdmin(admin.ModelAdmin):
-    list_display = ('posted_by', 'category', 'post_location', 'avg_price', 'estimate_view', 'created_at')
+    list_display = ('post_image', 'posted_by', 'category', 'post_location', 'avg_price', 'estimate_view', 'created_at')
 admin.site.register(Review) 
