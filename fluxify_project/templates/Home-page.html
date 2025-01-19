@@ -73,7 +73,10 @@
                     <div class="post-card-like">
                     </div>
                     <div class="post-card-share">
-                      <button style="margin-left: -50px;" class="button-icon-text">SAVE <i class='bx bxs-bookmark-star'></i></button>
+                      <form method="post" action="{% url 'save_post' post_obj.id %}">
+                        {% csrf_token %}
+                        <button type="submit" style="margin-left: -50px;" class="button-icon-text">SAVE <i class='bx bxs-bookmark-star'></i></button>
+                      </form>
                     </div>
                   </div>   
              </div>

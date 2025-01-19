@@ -3,7 +3,11 @@ from django.core.validators import MinLengthValidator
 #from django.contrib.auth.models import AbstractUser
 from django import forms
 
+
+
 # Create your models here.
+
+
 class user_custome(models.Model):
     USER_ROLES = [
         ('admin', 'Admin'),
@@ -34,7 +38,7 @@ class user_custome(models.Model):
         return self.user_name
     
 class report(models.Model):
-    user=models.ForeignKey(user_custome,null=True,on_delete=models.SET_NULL,related_name='reports')
+    user=models.ForeignKey(user_custome,null=True,on_delete=models.SET_NULL,related_name='reports_user')
     report_image=models.ImageField(upload_to="images/")
     report_text=models.TextField()
     created_at=models.DateTimeField(auto_now=True)
@@ -44,7 +48,7 @@ class report(models.Model):
     
 
 class help(models.Model):
-    user=models.ForeignKey(user_custome,null=True,on_delete=models.CASCADE,related_name='help')
+    user=models.ForeignKey(user_custome,null=True,on_delete=models.CASCADE,related_name='help_user')
     help_image=models.ImageField(upload_to='media/')
     help_text=models.TextField()
     created_at=models.DateTimeField(auto_now=True)
@@ -53,7 +57,7 @@ class help(models.Model):
         return self.user.user_name
     
 class verification(models.Model):
-    user=models.ForeignKey(user_custome,null=True,on_delete=models.CASCADE,related_name='verificatio')
+    user=models.ForeignKey(user_custome,null=True,on_delete=models.CASCADE,related_name='verification_user')
     verifyed=models.BooleanField(default=False)
     instagram_id=models.CharField(max_length=200,null=False)
     x_id=models.CharField(max_length=200,null=False)
@@ -62,3 +66,11 @@ class verification(models.Model):
     def __str__(self):
         return self.user.user_name
     
+
+class SavedPost(models.Model):
+    user=models.ForeignKey(user_custome,null=True,on_delete=models.CASCADE,related_name='saved_user')
+    post = models.ForeignKey('fluxify_post.Post_mark', on_delete=models.CASCADE)
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} saved {self.post}"

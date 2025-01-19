@@ -43,9 +43,11 @@
                 </div>
                 <div class="post-card-body">
                   {% if post_obj.post_image %}
+                  <a href="{% url 'post_details' post_obj.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
                     <img class="post-card-body-img" src="{{ post_obj.post_image.url }}" alt="No Image">
                   {% else %}
                     <img class="post-card-body-img" src="{% static 'images/default-image.png' %}" alt="No Image">
+                  </a>  
                   {% endif %}
                 </div>
                   <div class="post-card-foot">
@@ -53,17 +55,19 @@
                     </div>
                     <div class="post-card-enquiry">
                       <a href="{% url 'chat' post_obj.posted_by.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
-                        <button class="button-text">ENQUERY</button>
+                        <button style="margin-left: 115px;" class="button-text">ENQUERY</button>
                       </a>  
                     </div>
                     <div class="post-card-like">
-                      <i style="font-size:30px;" 
-                      class='bx bxs-heart'></i>
+                      
                     </div>
                     <div class="post-card-share">
-                      <i style="font-size:30px;"
-                      class='bx bxs-share-alt'></i>
-                    </div>
+                          <form method="post" action="{% url 'save_post' post_obj.id %}">
+                            {% csrf_token %}
+                            <button type="submit" style="margin-left: -50px;" class="button-icon-text">SAVE <i class='bx bxs-bookmark-star'></i></button>
+                          </form> 
+                    </div>                            
+                   </div>   
                   </div>   
              </div>
 

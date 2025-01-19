@@ -62,7 +62,9 @@
                       </div>
                     </div>
                     <div class="post-card-body">
+                      <a href="{% url 'post_details' post.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
                         <img class="post-card-body-img" src="{% if post.post_image and post.post_image.url %}{{ post.post_image.url }}{% else %}{% static 'images/default-image.png' %}{% endif %}" alt="Post Image" width="100">
+                      </a>  
                     </div>
                       <div class="post-card-foot">
                         <div class="post-card-space">
@@ -76,8 +78,10 @@
                         
                         </div>
                         <div class="post-card-share">
-                          <button style="margin-left: -50px;" class="button-icon-text">SAVE <i class='bx bxs-bookmark-star'></i></button>
-                        </div>
+                          <form method="post" action="{% url 'save_post' post.id %}">
+                            {% csrf_token %}
+                            <button type="submit" style="margin-left: -50px;" class="button-icon-text">SAVE <i class='bx bxs-bookmark-star'></i></button>
+                          </form>                        </div>
                       </div>   
                   </div>
                 {% endfor %}
@@ -94,6 +98,7 @@
                    margin-top: 20px;">User Accounts</h3>
         {% if users %}
                 {% for user in users %}
+                <a href="{% url 'user_b_profile' user.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
                     <div class="search-chat-card">
                       <div class="search-chat-card-dp-icon">
                         <img class="search-chat-card-dp-img" src="{% if user.profile_photo and user.profile_photo.url %}{{ user.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="User Photo" width="100">
@@ -107,6 +112,7 @@
                         </div>
                       </div>
                     </div>
+                  </a>  
                 {% endfor %}
         {% else %}
             <p style="color: rgb(217, 217, 217);

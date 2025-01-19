@@ -28,6 +28,9 @@
   {% include "header-search.html" %}
   {% endblock header_search %}
     <div class="page">
+      {% for message in messages %}
+      <p class="{{ message.tags }}">{{ message }}</p>
+      {% endfor %}
         <div class="detailed-post-card">
             <div class="detailed-post-card-body">
                 {% if post.post_image %}
@@ -67,9 +70,10 @@
                     {{post.avg_price}}Rs /Mounth
                 </div>
                 <div class="foot-Save-button-div">
-                  <button class="foot-Save-button">
-                    Save <i class='bx bxs-bookmark'></i>
-                  </button>
+                  <form method="post" action="{% url 'save_post' post.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="foot-Save-button">SAVE <i class='bx bxs-bookmark-star'></i></button>
+                  </form>
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from fluxify_user.models import user_custome
+from fluxify_user.models import user_custome,SavedPost
 from django.contrib.auth.hashers import check_password, make_password
 from fluxify_post.models import post_mark
 from functools import wraps
@@ -141,6 +141,7 @@ def user_logout(request):
 
 
 def user_b(request,id):
+
     if not request.session.get('is_logged_in'):
         return redirect('login_page')
     
@@ -156,3 +157,44 @@ def user_b(request,id):
 
     
     return render(request, "user-b-profile-page.html",context)    
+
+
+def save_post(request, post_id):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+
+    # Retrieve the user and post
+    user_email = request.session.get('mail_id')
+    user = user_custome.objects.filter(mail_id=user_email).first()
+    if not user:
+        messages.error(request, "User not found.")
+        return redirect('login_page')
+
+    try:
+        post = post_mark.objects.get(id=post_id)
+        # Check if the post is already saved
+        if SavedPost.objects.filter(user=user, post=post).exists():
+            messages.info(request, "Post already saved.")
+        else:
+            SavedPost.objects.create(user=user, post=post)
+            messages.success(request, "Post saved successfully.")
+    except post_mark.DoesNotExist:
+        messages.error(request, "Post does not exist.")
+    
+    return redirect('post_details',id=post_id)  # Replace with your profile page URL name
+
+
+def profile_page_saved(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+    
+    user_email = request.session.get('mail_id')
+    user = user_custome.objects.filter(mail_id=user_email).first()
+    
+    saved_posts = SavedPost.objects.filter(user=user).select_related('post')
+
+    context = {
+        'user': user,
+        'saved_posts': saved_posts,
+    }
+    return render(request, 'profile-page-saved.html', context)

@@ -14,6 +14,7 @@
 <body style="background-color: rgb(0, 0, 0);
              font-family: 'Roboto', sans-serif;">
     <div class="page">
+      <a href="{% url 'user_b_profile' receiver.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
         <div class="chat-card">
             <div class="chat-card-head">
               <div class="chat-card-dp-icon">
@@ -28,6 +29,7 @@
                 </div>
               </div>
             </div>
+        </a>
                   {% for message in messages %}
                   <div class="chat-card-body" id="chat-messages">
                     <div class="chat-body-user-profile-message">
