@@ -47,15 +47,36 @@
                 <div style="margin-right: 20px;">
                     <input required name="category" class="drop-down" list="Catagories" placeholder="Catagories">
                     <datalist id="Catagories">
-                    <option value="Bill-Bord/Hordings">
-                    <option value="Wall-advertisements">
-                    <option value="Big-screens">
-                    <option value="Mic-anoncements">
-                    <option value="Others">
+                            <option value="Airport">
+                            <option value="ATM">
+                            <option value="Vehicle-Advertsiment">
+                            <option value="Cinema theatre">
+                            <option value="Event">
+                            <option value="In flight">
+                            <option value="Lamp post">
+                            <option value="Look walker">
+                            <option value="Soping Mall">
+                            <option value="Metro station">
+                            <option value="News paper">
+                            <option value="Radio">
+                            <option value="TV Channel">
+                            <option value="Railway station">
+                            <option value="Tea cup">
+                            <option value="Traffic barricades">
+                            <option value="Train">
+                            <option value="Vending machine">
+                            <option value="Others">
                     </datalist>
                 </div>
                 <div>
-                    <input required name="post_location" type="text"class="input-short"placeholder="Location"/>
+                    <input required name="post_location" list="Location" type="text"class="input-short"placeholder="Location"/>
+                    <datalist id="Location">
+                        <option value="Manjeri">
+                        <option value="Perinthalmanna">
+                        <option value="Kochi">
+                        <option value="Calicut">
+                        <option value="Malappuram">
+                      </datalist>
                 </div>
             </div>
             <div>
@@ -67,7 +88,7 @@
                 flex-direction: row;
                 padding-top: 25px;">
                 <div style="margin-right: 20px;">
-                    <input required name="avg_price" type="number"class="input-short"placeholder="Avg Price / Mounth"/>
+                    <input required name="avg_price" type="number"class="input-short"placeholder="Avg Price / Month"/>
                 </div>
                 <div>
                     <input required name="estimate_view" type="number"class="input-short"placeholder="Estimate Reach / Day"/>
