@@ -49,11 +49,9 @@
                 <div class="foot-discription">
                     {{post.post_description}}
                 </div>
-                <div class="foot-review-button-div">
-                  <button class="foot-review-button">
-                    write your review 
-                  </button>
-                </div>
+                <div class="foot-estimate-reach-price">
+                  {{post.post_location}}
+              </div>
               </div>
               <div class="foot-right">
                 <div class="foot-enquiry-button-div">
@@ -67,7 +65,7 @@
                     {{post.estimate_view}} Reach/Day
                 </div>
                 <div class="foot-estimate-reach-price">
-                    {{post.avg_price}}Rs /Mounth
+                    {{post.avg_price}}Rs /Month
                 </div>
                 <div class="foot-Save-button-div">
                   <form method="post" action="{% url 'save_post' post.id %}">
