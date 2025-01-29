@@ -31,7 +31,7 @@
       {% for message in messages %}
       <p class="{{ message.tags }}">{{ message }}</p>
       {% endfor %}
-        <div class="detailed-post-card">
+        <div style="margin-bottom: 100px;" class="detailed-post-card">
             <div class="detailed-post-card-body">
                 {% if post.post_image %}
                   <img class="post-card-body-img" src="{{ post.post_image.url }}" alt="No Image">

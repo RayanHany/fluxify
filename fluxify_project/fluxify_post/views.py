@@ -88,7 +88,7 @@ def sorted_posts(request):
     category = request.GET.get('category', '')  # Default to empty string
     location = request.GET.get('location', '')  # Default to empty string
     price_order = request.GET.get('price', '')  # Can be 'asc' or 'desc'
-
+    print(category,location,price_order)
     # Start with all posts
     posts = post_mark.objects.all()
 
@@ -99,9 +99,9 @@ def sorted_posts(request):
         posts = posts.filter(post_location__icontains=location)  # Filter by location (case-insensitive)
 
     # Apply sorting if provided
-    if price_order == 'asc':
+    if price_order == 'Ascending':
         posts = posts.order_by('avg_price')  # Sort by price (ascending)
-    elif price_order == 'desc':
+    elif price_order == 'Descending':
         posts = posts.order_by('-avg_price')  # Sort by price (descending)
 
     # Render the sorted and filtered posts
