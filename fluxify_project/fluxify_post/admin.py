@@ -3,11 +3,13 @@ from atexit import register
 from .models import post_mark
 from django.utils.html import format_html
 from django.apps import apps
+from unfold.admin import ModelAdmin
+
 Post_custome = apps.get_model('fluxify_post', 'post_mark')
 Review = apps.get_model('fluxify_post', 'Review')
 # Register your models here.
 @admin.register(post_mark)
-class PostMarkAdmin(admin.ModelAdmin):
+class PostMarkAdmin(ModelAdmin):
     # Add a custom method to display the image
     def display_post_image(self, obj):
         if obj.post_image:  # Check if the image exists

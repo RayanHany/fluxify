@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -133,3 +134,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 USE_TZ = True  # Enable timezone support
 TIME_ZONE = 'Asia/Kolkata'  # Set default timezone to IST
+# settings.py
+UNFOLD = {
+    "SITE_TITLE": "Fluxify Admin",
+    "SITE_HEADER": "Fluxify Admin",
+    # ... other settings ...
+}
