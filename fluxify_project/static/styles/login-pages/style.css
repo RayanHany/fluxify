@@ -280,7 +280,6 @@
     .header-logo-profile-search{
       display: flex;
       justify-content: center;
-      border: solid white;
       height: 100px;
     }
     .lps-inner-one{

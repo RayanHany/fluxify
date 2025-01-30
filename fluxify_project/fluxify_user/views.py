@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from fluxify_user.models import user_custome,SavedPost,report,help
+from fluxify_user.models import user_custome,SavedPost,report,help, verification
 from django.contrib.auth.hashers import check_password, make_password
 from fluxify_post.models import post_mark
 from functools import wraps
@@ -12,9 +12,22 @@ def home(request):
     
     # Retrieve the email from the session
     user_email=request.session.get('mail_id')
+
+    
         
     # Get the user object by matchig the email
-    user=user_custome.objects.filter(mail_id=user_email).first() 
+    user=user_custome.objects.filter(mail_id=user_email).first()
+
+    try:
+            verification_record = verification.objects.get(user=user)
+            
+            # If verified, update the user role to 'influencer'
+            if verification_record.verifyed:
+                user.user_role = 'influencer'
+                user.save()  # Save the updated role
+                
+    except verification.DoesNotExist:
+         pass  # If no verification record exists, nothing changes
     
     post = post_mark.objects.all().order_by('?')  # Random order
     
@@ -232,7 +245,7 @@ def report_issue(request):
         messages.error(request, "Something went wrong. Please try again.")
         print("Error:", e)  # Logs the actual error for debugging
 
-    return render(request, 'report.html')
+    return render(request, 'report.html',{'user': user})
 
 
 def submit_help_request(request):
@@ -268,4 +281,45 @@ def submit_help_request(request):
         messages.error(request, "Something went wrong. Please try again.")
         print("Error:", e)  # Logs the actual error for debugging
 
-    return render(request, 'help.html')
+    return render(request, 'help.html',{'user': user})
+
+
+
+
+def verification_request(request):
+    try:
+        if not request.session.get('is_logged_in'):
+            return redirect('login_page')
+
+        user_email = request.session.get('mail_id')
+        user = user_custome.objects.filter(mail_id=user_email).first()
+
+        if not user:
+            messages.error(request, "User not found.")
+            return redirect('login_page')
+
+        if request.method == "POST":
+            instagram_id = request.POST.get("instagram_id", "").strip()
+            x_id = request.POST.get("x_id", "").strip()
+            youtube_name = request.POST.get("youtube_name", "").strip()
+
+            if not instagram_id or not x_id or not youtube_name:
+                messages.error(request, "All fields are required.")
+                return redirect("verification_page")
+
+            # Save the verification request
+            verification.objects.create(
+                user=user,
+                instagram_id=instagram_id,
+                x_id=x_id,
+                youtube_name=youtube_name,
+            )
+
+            messages.success(request, "You Have New Verification Request!")
+            return redirect("home_page")
+
+    except Exception as e:
+        messages.error(request, "Something went wrong. Please try again.")
+        print("Error:", e)  # Logs error for debugging
+
+    return render(request, "verification_form.html" ,{'user': user})

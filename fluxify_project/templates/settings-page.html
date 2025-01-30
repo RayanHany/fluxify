@@ -47,7 +47,13 @@
        ">Settings</h1> 
         
         <div>
-            <button class="settings-button">Verification</button>
+        {% if user.user_role == 'influencer' %}
+          
+        {% else %}
+        <a href="{% url 'verification_page' %}" style="text-decoration: none; color: inherit;">
+          <button class="settings-button">Verification</button>
+        </a>  
+        {% endif %}
         </div>
 
         <div>

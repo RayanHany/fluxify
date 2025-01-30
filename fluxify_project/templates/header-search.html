@@ -97,7 +97,7 @@
                 <img class="profile-icon-heder" src="{{ user.profile_photo.url }}" alt="Profile Picture">
               </a>
             {% else %}
-              <a href="{% url 'profile_page' %}"></a>
+              <a href="{% url 'profile_page' %}">
                 <img class="profile-icon-heder" src="{% static 'images/default-avatar.png' %}" alt="Default Profile">
               </a>
           {% endif %}

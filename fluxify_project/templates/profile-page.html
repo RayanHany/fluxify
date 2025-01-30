@@ -105,7 +105,9 @@
         </div>
         <div style="align-self: start;
                     margin-top: 10px;" >
-            <h2>{{ user.user_name }}</h2>
+            <h2>{{ user.user_name }} {% if user.user_role == 'influencer' %}
+                    <i class='bx bxs-badge-check'></i>
+            {% endif %}</h2>
         </div>
         <div class="buttons-profile-page">
                 <div style="min-width: 250px;">

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/login-pages/Profile-add.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>Login-Page-Mail</title>
+    <style>
+   .messages {
+        position: absolute;
+        right: 649px;
+        top: 0px;
+        width: 250px;
+        padding: 10px;
+        padding-left: 29px;
+        padding-right: 9px;
+        font-size: 10px;
+        line-height: 27px;
+        text-align: left;
+        font-weight: 600;
+        border: solid rgb(255, 255, 255);
+        border-radius: 0px 50px 50px 50px;
+        margin-top: 220px;
+        opacity: .75;
+    }   
+        
+    </style>
+</head>
+<body>
+    {% block header_search %}
+    {% include "header-search.html" %}
+    {% endblock header_search %}
+    
+    <div class="page">
+        {% block content %}
+
+            <h2 style="margin-bottom: 20px;">Influencer Verification</h2>
+
+            <!-- Display error/success messages -->
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Form for verification request -->
+            <form style="margin-top: 150px;" method="post">
+                {% csrf_token %}
+            <div style="margin-left: 120px;">
+                    <input class="input-short" type="text" placeholder="instagram_id" name="instagram_id" required>
+
+                    
+                    <input class="input-short" type="text" placeholder="x_id" name="x_id" required>
+
+                    
+                    <input class="input-short" type="text" placeholder="youtube_name" name="youtube_name" required>
+            </div>
+            <div style="margin-left: 230px;">
+                <button class="button-icon-text" type="submit">Send</button>
+            </div>
+                
+            </form>
+        {% endblock %}
+         
+        {% block nav_button%}
+        {% include "nav_button.html" %}
+        {% endblock nav_button%}
+
+    </div>
+    <script src="{% static 'scripts/login-pages/script-upload.js' %}"></script>
+</body>
+</html>
