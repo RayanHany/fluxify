@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from fluxify_user.models import user_custome,SavedPost
+from fluxify_user.models import user_custome,SavedPost,report,help
 from django.contrib.auth.hashers import check_password, make_password
 from fluxify_post.models import post_mark
 from functools import wraps
@@ -198,3 +198,74 @@ def profile_page_saved(request):
         'saved_posts': saved_posts,
     }
     return render(request, 'profile-page-saved.html', context)
+
+def report_issue(request):
+    try:
+        if not request.session.get('is_logged_in'):
+            return redirect('login_page')
+
+        user_email = request.session.get('mail_id')
+        user = user_custome.objects.filter(mail_id=user_email).first()
+
+        if not user:
+            messages.error(request, "User not found.")
+            return redirect('login_page')
+
+        if request.method == 'POST':
+            post_image = request.FILES.get('post_image')
+            post_description = request.POST.get('post_description', '')
+
+            if not post_image:
+                messages.error(request, "Please upload an image.")
+                return redirect('report_issue')
+
+            # Save the report
+            report.objects.create(
+                user=user,
+                report_image=post_image,
+                report_text=post_description
+            )
+            messages.success(request, "You have a New Report to Check.")
+            return redirect('home_page')  # Redirect after successful submission
+
+    except Exception as e:
+        messages.error(request, "Something went wrong. Please try again.")
+        print("Error:", e)  # Logs the actual error for debugging
+
+    return render(request, 'report.html')
+
+
+def submit_help_request(request):
+    try:
+        if not request.session.get('is_logged_in'):
+            return redirect('login_page')
+
+        user_email = request.session.get('mail_id')
+        user = user_custome.objects.filter(mail_id=user_email).first()
+
+        if not user:
+            messages.error(request, "User not found.")
+            return redirect('login_page')
+
+        if request.method == 'POST':
+            help_image = request.FILES.get('help_image')
+            help_description = request.POST.get('help_description', '')
+
+            if not help_image:
+                messages.error(request, "Please upload an image.")
+                return redirect('submit_help_request')
+
+            # Save the help request
+            help.objects.create(
+                user=user,
+                help_image=help_image,
+                help_text=help_description
+            )
+            messages.success(request, "You Have A New Help Message To Check.")
+            return redirect('home_page')  # Redirect after successful submission
+
+    except Exception as e:
+        messages.error(request, "Something went wrong. Please try again.")
+        print("Error:", e)  # Logs the actual error for debugging
+
+    return render(request, 'help.html')

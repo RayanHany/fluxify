@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/imageupload.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>Report_Page</title>
+    <style>
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+        }
+    </style>
+</head>
+<body>
+    {% block header_search %}
+    {% include "header-search.html" %}
+    {% endblock header_search %}
+    <div class="page">
+      <form method="post" id="upload-form" enctype="multipart/form-data">
+        {% csrf_token %}
+      
+        <div style="z-index: 1;" class="drop-area">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <p>Click Browse To upload Image</p>
+          <span></span>
+          <button id="browse-file-btn" type="button">Browse Files</button>
+          <input required type="file" id="input-file" name="help_image" hidden />
+        </div>
+            <div>
+                <div style="width: 500px;
+                            margin-top: 450px;">
+                    <textarea required  name="help_description" class="input-long"placeholder="What help do you need...?"></textarea>
+                </div> 
+            </div>
+            </div>
+            <div style="display: flex;
+                        flex-direction: row;">
+                    <div style="
+                        margin-top: -20px;">
+                         <button type="submit" style="width: 10px;" class="button-icon-text">Ask For Help</button>
+                    </div>
+                </form>
+                
+                    <div style="margin-left: 180px;
+                                margin-top: -20px;">
+                    <a href="{% url 'settings_page' %}" style="text-decoration: none; color: inherit;">
+                        <button class="button-icon-text">Cancel</i></i></button>
+                    </a>
+                </div>  
+            </div>
+           
+       
+    </div>
+
+    {% block nav_button%}
+    {% include "nav_button.html" %}
+    {% endblock nav_button%}
+
+
+
+      <script src="{% static 'scripts/main-pages/script.js' %}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

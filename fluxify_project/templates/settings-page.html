@@ -51,11 +51,15 @@
         </div>
 
         <div>
-            <button class="settings-button">Notification</button>
+          <a href="{% url 'report_issue' %}" style="text-decoration: none; color: inherit;">
+            <button class="settings-button">Report </button>
+          </a>  
         </div>
 
         <div>
-            <button class="settings-button">Report & Help</button>
+          <a href="{% url 'submit_help_request' %}" style="text-decoration: none; color: inherit;">
+            <button class="settings-button">Help</button>
+          </a>  
         </div>
 
         <div>

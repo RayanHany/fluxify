@@ -28,6 +28,8 @@ urlpatterns = [
     path('user/<id>', views.user_b,name='user_b_profile'),
     path('profile_saved', views.profile_page_saved, name='profile_page_saved'),
     path('save_post/<int:post_id>/', views.save_post, name='save_post'),
+    path('report/', views.report_issue, name='report_issue'),
+    path('help/', views.submit_help_request, name='submit_help_request'),
 
 
     
