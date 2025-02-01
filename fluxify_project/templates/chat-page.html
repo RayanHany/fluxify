@@ -113,7 +113,9 @@
                 </div>
                 <div class="view-chat-card-name-location">
                     <div class="view-chat-card-name">
-                        <p>{{ user.user_name }}</p>
+                        <p>{{ user.user_name }}{% if user.user_role == 'influencer' %}
+                            <i class='bx bxs-badge-check'></i>
+                          {% endif %}</p>
                     </div>
                     <div class="view-chat-card-location">
                         <p>{{ user.address }}</p>

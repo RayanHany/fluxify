@@ -30,5 +30,3 @@ class PostMarkAdmin(ModelAdmin):
         'created_at'
     )
     display_post_image.short_description = 'Post Image'  # Column header name
-
-admin.site.register(Review) 

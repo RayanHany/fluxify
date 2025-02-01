@@ -45,17 +45,11 @@
             <h2 style="margin-bottom: 20px;">Influencer Verification</h2>
 
             <!-- Display error/success messages -->
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% endif %}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
 
             <!-- Form for verification request -->
+
+            
+            {% if not user.verification_user %}
             <form style="margin-top: 150px;" method="post">
                 {% csrf_token %}
             <div style="margin-left: 120px;">
@@ -72,6 +66,10 @@
             </div>
                 
             </form>
+
+            {% else %}
+                <p>You have already submitted a verification request.</p>
+            {% endif %}
         {% endblock %}
          
         {% block nav_button%}

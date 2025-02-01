@@ -31,6 +31,7 @@ urlpatterns = [
     path('report/', views.report_issue, name='report_issue'),
     path('help/', views.submit_help_request, name='submit_help_request'),
     path("verification/", views.verification_request, name="verification_page"),
+    path("scs", views.scs, name="scs_page"),
 
 
     

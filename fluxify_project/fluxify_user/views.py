@@ -25,6 +25,10 @@ def home(request):
             if verification_record.verifyed:
                 user.user_role = 'influencer'
                 user.save()  # Save the updated role
+
+            else:
+                user.user_role = 'advertiser'
+                user.save()    
                 
     except verification.DoesNotExist:
          pass  # If no verification record exists, nothing changes
@@ -44,6 +48,21 @@ def settings(request):
     # Get the user object by matchig the email
     user=user_custome.objects.filter(mail_id=user_email).first() 
 
+    try:
+            verification_record = verification.objects.get(user=user)
+            
+            # If verified, update the user role to 'influencer'
+            if verification_record.verifyed:
+                user.user_role = 'influencer'
+                user.save()  # Save the updated role
+
+            else:
+                user.user_role = 'advertiser'
+                user.save()    
+                
+    except verification.DoesNotExist:
+         pass  # If no verification record exists, nothing changes
+
 
     return render(request, 'settings-page.html', {'user': user})
 
@@ -61,6 +80,21 @@ def profile(request):
 
      # Get all posts created by the logged-in user
     user_posts = post_mark.objects.filter(posted_by=user)
+
+    try:
+            verification_record = verification.objects.get(user=user)
+            
+            # If verified, update the user role to 'influencer'
+            if verification_record.verifyed:
+                user.user_role = 'influencer'
+                user.save()  # Save the updated role
+
+            else:
+                user.user_role = 'advertiser'
+                user.save()    
+                
+    except verification.DoesNotExist:
+         pass  # If no verification record exists, nothing changes
     
     return render(request, 'profile-page.html', {'user': user,'user_posts':user_posts})
 
@@ -161,6 +195,17 @@ def user_b(request,id):
     # Get the user object by ID
     user=user_custome.objects.get(id=id)
 
+    try:
+            verification_record = verification.objects.get(user=user)
+            
+            # If verified, update the user role to 'influencer'
+            if verification_record.verifyed:
+                user.user_role = 'influencer'
+                user.save()  # Save the updated role
+                
+    except verification.DoesNotExist:
+         pass  # If no verification record exists, nothing changes
+
     # Fetch posts of the given user using the related_name 'posts'
     posts = user.posts.all()
 
@@ -193,6 +238,21 @@ def save_post(request, post_id):
             messages.success(request, "Post saved successfully.")
     except post_mark.DoesNotExist:
         messages.error(request, "Post does not exist.")
+
+
+    try:
+            verification_record = verification.objects.get(user=user)
+            
+            # If verified, update the user role to 'influencer'
+            if verification_record.verifyed:
+                user.user_role = 'influencer'
+                user.save()  # Save the updated role
+            else:
+                user.user_role = 'advertiser'
+                user.save()    
+                
+    except verification.DoesNotExist:
+         pass  # If no verification record exists, nothing changes    
     
     return redirect('post_details',id=post_id)  # Replace with your profile page URL name
 
@@ -238,8 +298,8 @@ def report_issue(request):
                 report_image=post_image,
                 report_text=post_description
             )
-            messages.success(request, "You have a New Report to Check.")
-            return redirect('home_page')  # Redirect after successful submission
+            messages.success(request, "Your Report has been Submitted.")
+            return redirect('scs_page')  # Redirect after successful submission
 
     except Exception as e:
         messages.error(request, "Something went wrong. Please try again.")
@@ -274,8 +334,8 @@ def submit_help_request(request):
                 help_image=help_image,
                 help_text=help_description
             )
-            messages.success(request, "You Have A New Help Message To Check.")
-            return redirect('home_page')  # Redirect after successful submission
+            messages.success(request, "Your Help Request has been Submitted.")
+            return redirect('scs_page')  # Redirect after successful submission
 
     except Exception as e:
         messages.error(request, "Something went wrong. Please try again.")
@@ -286,14 +346,16 @@ def submit_help_request(request):
 
 
 
+
 def verification_request(request):
+    
     try:
         if not request.session.get('is_logged_in'):
             return redirect('login_page')
 
         user_email = request.session.get('mail_id')
         user = user_custome.objects.filter(mail_id=user_email).first()
-
+        
         if not user:
             messages.error(request, "User not found.")
             return redirect('login_page')
@@ -306,7 +368,12 @@ def verification_request(request):
             if not instagram_id or not x_id or not youtube_name:
                 messages.error(request, "All fields are required.")
                 return redirect("verification_page")
+            
 
+            if verification.objects.filter(user=user).exists():
+                messages.warning(request, "You have already submitted a verification request.")
+                return redirect('scs_page')
+            
             # Save the verification request
             verification.objects.create(
                 user=user,
@@ -315,11 +382,39 @@ def verification_request(request):
                 youtube_name=youtube_name,
             )
 
-            messages.success(request, "You Have New Verification Request!")
-            return redirect("home_page")
+            messages.success(request, "Verification request submitted successfully.")
+            return redirect("scs_page")
 
     except Exception as e:
         messages.error(request, "Something went wrong. Please try again.")
         print("Error:", e)  # Logs error for debugging
 
-    return render(request, "verification_form.html" ,{'user': user})
+        
+    return render(request, "verification_form.html")
+
+def scs(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+    
+     # Retrieve the email from the session
+    user_email=request.session.get('mail_id')
+        
+    # Get the user object by matchig the email
+    user=user_custome.objects.filter(mail_id=user_email).first() 
+    
+    try:
+        verification_record = verification.objects.get(user=user)
+            
+        # If verified, update the user role to 'influencer'
+        if verification_record.verifyed:
+                user.user_role = 'influencer'
+                user.save()  # Save the updated role
+
+        else:
+                user.user_role = 'advertiser'
+                user.save()    
+                
+    except verification.DoesNotExist:
+         pass  # If no verification record exists, nothing changes
+    
+    return render(request, "sucsess.html" ,{'user': user})
