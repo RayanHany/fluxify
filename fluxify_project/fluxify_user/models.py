@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinLengthValidator
 #from django.contrib.auth.models import AbstractUser
 from django import forms
-
+from django.utils.timezone import now  # Import now()
 
 
 # Create your models here.
@@ -36,6 +36,19 @@ class user_custome(models.Model):
 
     def __str__(self):
         return self.user_name
+    
+
+
+class OTPVerification(models.Model):
+    user = models.ForeignKey(user_custome, on_delete=models.CASCADE)
+    otp_code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_valid(self):
+        return (now() - self.created_at).seconds < 300  # OTP valid for 5 minutes
+
+    def __str__(self):
+        return f"OTP for {self.user.mail_id}"
     
 class report(models.Model):
     user=models.ForeignKey(user_custome,null=True,on_delete=models.SET_NULL,related_name='reports_user')

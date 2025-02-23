@@ -4,6 +4,10 @@ from fluxify_user.models import user_custome,SavedPost,report,help, verification
 from django.contrib.auth.hashers import check_password, make_password
 from fluxify_post.models import post_mark
 from functools import wraps
+import random
+from django.core.mail import send_mail
+from django.core.mail import BadHeaderError
+from .models import user_custome, OTPVerification
 
 # Home page view
 def home(request):
@@ -100,6 +104,8 @@ def profile(request):
 
 # Login page view
 def login(request):
+    if request.session.get('is_logged_in'):
+            return redirect('home_page')  # Redirect to home page if already logged in
     if request.method == 'POST' and 'login' in request.POST:
         mail_id = request.POST.get("mail_id")  # Email field
         password = request.POST.get("password")  # Password field
@@ -120,11 +126,33 @@ def login(request):
     return render(request, "login-page.html")
 
 
+# send otp view
+def send_otp_email(mail_id, otp_code):
+    """Function to send OTP to email"""
+    subject = "Your OTP for Account Verification"
+    message = (
+        "Dear User,\n\n"
+        "Your One-Time Password (OTP) for account verification is:\n\n"
+        f"🔒 **{otp_code}** 🔒\n\n"
+        "This OTP is valid for **5 minutes**. Do not share it with anyone.\n\n"
+        "If you did not request this, please ignore this email.\n\n"
+        "Best regards,\n"
+        "Flexify Team"
+    )
+    sender_email = "fluxify.inc@gmail.com"  #  sender email
+    try:
+        send_mail(subject, message, sender_email, [mail_id])
+    except BadHeaderError:
+        print("Invalid header found.")
+    except Exception as e:
+        print(f"Failed to send email: {str(e)}")  # Debugging print
 
 # Signup page view
 def signup(request):
     if request.method == 'POST' and 'register' in request.POST:
-        try:  
+        if request.session.get('is_logged_in'):
+            return redirect('home_page')  # Redirect to home page if already logged in
+        try:
             user_name = request.POST.get("user_name")
             mail_id = request.POST.get("mail_id")
             password = request.POST.get("password")
@@ -133,7 +161,7 @@ def signup(request):
             address = request.POST.get("address")
             profile_photo = request.FILES.get("profile_photo")
 
-            # Check if the email or phone number already exists
+            # Check if email or phone already exists
             if user_custome.objects.filter(mail_id=mail_id).exists():
                 messages.error(request, "Email is already registered.")
                 return redirect('signup_page')
@@ -142,30 +170,98 @@ def signup(request):
                 messages.error(request, "Phone number is already registered.")
                 return redirect('signup_page')
 
-            # Hash the password before saving
+            # Hash the password before storing it
             hashed_password = make_password(password)
 
-            # Save user to the database
-            user_custome.objects.create(
-                user_name=user_name,
+            # Save user data in session before final registration
+            request.session['signup_data'] = {
+                'user_name': user_name,
+                'mail_id': mail_id,
+                'password': hashed_password,
+                'phone_no': phone_no,
+                'pin_code': pin_code,
+                'address': address,
+                'profile_photo': profile_photo.name if profile_photo else None,
+            }
+
+            # Get or create the user instance
+            user_instance, created = user_custome.objects.get_or_create(
                 mail_id=mail_id,
-                password=hashed_password,
-                phone_no=phone_no,
-                pin_code=pin_code,
-                address=address,
-                profile_photo=profile_photo,
+                defaults={'user_name': user_name, 'phone_no': phone_no, 'password': hashed_password, 'pin_code': pin_code, 'address': address, 'profile_photo': profile_photo}
             )
-            request.session['is_logged_in'] = True
-            request.session['mail_id'] = mail_id 
-            return redirect('home_page')
+
+            # Generate OTP
+            otp_code = str(random.randint(100000, 999999))
+
+            # Save OTP linked to the user
+            otp_entry, created = OTPVerification.objects.update_or_create(
+                user=user_instance,
+                defaults={'otp_code': otp_code}
+            )
+
+            # Send OTP to email
+            send_otp_email(mail_id, otp_code)
+
+            messages.success(request, "OTP sent to your email. Please verify.")
+            return redirect('verify_otp')
+
         except Exception as e:
-            error_message = "Error occurred. Please try again."
-            messages.error(request, error_message)
-            return redirect('signup_page')
-            
+            messages.error(request, f"Error occurred: {str(e)}")  # Print actual error message
+        return redirect('signup_page')
+
     return render(request, "signup-page.html")
 
+#verify otp view
+def verify_otp(request):
+    if request.method == 'POST':
+        otp_code = request.POST.get('otp_code')
+        mail_id = request.session.get('signup_data', {}).get('mail_id')
 
+        if not mail_id:
+            messages.error(request, "Session expired. Please sign up again.")
+            return redirect('signup_page')
+
+        try:
+            # Fetch the saved user instance instead of creating a new one
+            user_instance = user_custome.objects.get(mail_id=mail_id)
+
+            # Fetch the OTP record linked to the saved user
+            otp_record = OTPVerification.objects.get(user=user_instance, otp_code=otp_code)
+
+            if otp_record.is_valid():
+                # Save user details permanently
+                signup_data = request.session.pop('signup_data', {})
+                user_instance.user_name = signup_data['user_name']
+                user_instance.password = signup_data['password']
+                user_instance.phone_no = signup_data['phone_no']
+                user_instance.pin_code = signup_data['pin_code']
+                user_instance.address = signup_data['address']
+                if signup_data.get('profile_photo'):
+                    user_instance.profile_photo = signup_data['profile_photo']
+
+                user_instance.save()  # Save the user instance
+
+                # Delete OTP record after successful verification
+                otp_record.delete()
+
+                # Log in the user
+                request.session['is_logged_in'] = True
+                request.session['mail_id'] = mail_id
+                return redirect('home_page')
+
+            else:
+                messages.error(request, "OTP expired. Please sign up again.")
+                return redirect('signup_page')
+
+        except user_custome.DoesNotExist:
+            messages.error(request, "User not found. Please sign up again.")
+            return redirect('signup_page')
+
+        except OTPVerification.DoesNotExist:
+            messages.error(request, "Invalid OTP. Please try again.")
+            return redirect('verify_otp')
+
+    return render(request, "verify-otp.html")
 
 def login_required_custom(view_func):
     @wraps(view_func)
@@ -345,6 +441,36 @@ def submit_help_request(request):
 
 
 
+def send_verification_email(mail_id):
+    """Function to send a verification request confirmation email"""
+    subject = "Your Verification Request Has Been Received"
+
+    html_message = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif; color: #333;">
+        <p>Dear User,</p>
+        <p>We have received your request for verification.</p>
+        <p><b>Our team will review your request and notify you once the process is complete.</b></p>
+        <p>For any updates, please check your email.</p>
+        <br>
+        img src="static/images/fluxify logo-01.svg" alt="verification" border="0">
+        <p>Best regards,</p>
+        <p><b>Flexify Team</b></p>
+    </body>
+    </html>
+    """
+
+    try:
+        send_mail(
+            subject,
+            "",
+            "fluxify.inc@gmail.com",  # Sender email
+            [mail_id],
+            html_message=html_message,
+        )
+    except Exception as e:
+        print(f"Failed to send email: {str(e)}")  # Debugging print
+
 
 
 def verification_request(request):
@@ -381,10 +507,12 @@ def verification_request(request):
                 x_id=x_id,
                 youtube_name=youtube_name,
             )
-
+            send_verification_email(user_email)
             messages.success(request, "Verification request submitted successfully.")
             return redirect("scs_page")
 
+            
+            
     except Exception as e:
         messages.error(request, "Something went wrong. Please try again.")
         print("Error:", e)  # Logs error for debugging

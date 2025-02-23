@@ -24,6 +24,7 @@ urlpatterns = [
     path('profile', views.profile,name='profile_page'),
     path('', views.login,name='login_page'),
     path('signup', views.signup,name='signup_page'),
+    path('verify-otp/',views.verify_otp, name='verify_otp'),
     path('logout', views.user_logout,name='logout'),
     path('user/<id>', views.user_b,name='user_b_profile'),
     path('profile_saved', views.profile_page_saved, name='profile_page_saved'),
