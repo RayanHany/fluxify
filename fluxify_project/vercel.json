@@ -1,13 +1,13 @@
 {
     "builds": [{
-        "src": "fluxify_project/wsgi.py",
+        "src": "fluxify_project/asgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
     }],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "fluxify_project/wsgi.py"
+            "dest": "fluxify_project/asgi.py"
         }
     ]
 }
