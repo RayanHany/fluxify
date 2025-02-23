@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/drag-and-drop-file-upload/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>profile-page</title>
+    <style>
+        .profile-dp-bio{
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            margin-top: 70px;
+        }
+        .bio-adress{
+            display: flex;
+            flex-direction: column;
+            padding-left: 20px;
+            justify-content: end;
+        }
+        .adress{
+            padding-top: 10px;
+        }
+        .profile-name{
+          padding-right: 200px;
+          margin-top: 10px;
+          margin-right: 200px;
+        }
+        .buttons-profile-page{
+           display: grid;
+              grid-template-columns: repeat(3, 1fr);
+        }
+        .images-profile-page{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+        }
+        .posts-grid .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        }
+
+        .post-card {
+            width: 30%;
+            text-align: center;
+            height: 30%;
+        }
+
+        .post-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+    
+    </style>
+
+
+</head>
+<body>
+    <div class="header-logo-only">
+        <div class="inner-one">
+        </div>
+        <div class="inner-two">
+          <img class="Header-only-logo-img" src="{% static 'images/fluxify logo-01.svg' %}" alt="">
+        </div>
+        <div class="inner-three">
+        </div>
+    </div>
+    <div class="page">
+        <div style="margin-right: auto;" class="profile-dp-bio">
+            <div class="profile-dp">
+                {% if user.profile_photo %}
+                    <img style="width: 86px;
+                    height: 86px;
+                    border-radius: 50%;" 
+                     src="{{ user.profile_photo.url }}" alt="Profile Picture">
+                {% else %}
+                    <img style="width: 86px;
+                    height: 86px;
+                    border-radius: 50%;" 
+                 src="{% static 'images/default-avatar.png' %}" alt="Default Profile">
+                {% endif %}
+            </div>
+            <div class="bio-adress">
+                <div class="bio">
+                    <p style="text-align: left;
+                              margin-bottom: 10px" > <i class='bx bx-current-location'></i>  {{ user.pin_code }}</p>
+                    <p style="text-align: left;"> <i class='bx bxs-phone-call' ></i>  {{ user.phone_no }}</p>
+                </div>
+                <div class="adress">
+                    <h3>{{ user.address }}</h3>
+                </div>
+            </div>
+        </div>
+        <div style="align-self: start;
+                    margin-top: 10px;" >
+            <h2>{{ user.user_name }} {% if user.user_role == 'influencer' %}
+                <i class='bx bxs-badge-check'></i>
+        {% endif %}</h2>
+        </div>
+        <div class="buttons-profile-page">
+            <div style="min-width: 250px;">
+                <a href="{% url 'chat' user.id %}">
+                    <button style="background-color: rgb(255, 255, 255);
+                                    width: 60%;
+                                    margin-left: 0px;" class="button-icon">Message <i class='bx bxs-message-square'></i></button>
+                </a>
+            </div>
+            <div style="font-weight: 900;">
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+
+        <div class="user-posts">
+            <h3 style="margin-bottom: 20px;" ># {{ user.user_name }} Listed Advertising Assets</h3>
+            <div class="posts-grid">
+                {% for post in user.posts.all %}
+                    {% if forloop.counter0|divisibleby:3 %}
+                    <div class="row">
+                    {% endif %}
+                        <div class="post-card">
+                            {% if post.post_image %}
+                            <a href="{% url 'post_details' post.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
+                                <img class="post-image" src="{{ post.post_image.url }}" alt="Post Image">
+                            </a>
+                            {% else %}
+                                <img class="post-image" src="{% static 'images/default-image.png' %}" alt="Default Image">
+                            {% endif %}
+                        </div>
+                    {% if forloop.counter|divisibleby:3 or forloop.last %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        
+    </div>
+
+    {% block nav_button%}
+    {% include "nav_button.html" %}
+    {% endblock nav_button%}
+
+
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

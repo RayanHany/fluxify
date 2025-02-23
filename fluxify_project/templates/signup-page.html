@@ -14,55 +14,68 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>Login-Page-Mail</title>
     <style>
-        .messages{
-            right: 2;
-            width: 240px;
-            padding: 20px;
-            font-size: 14px;
-            line-height: 27px;
-            text-align: left;
-            font-weight: 600;
-            border: solid white ;
-            border-radius: 0px 50px 50px 50px;
-            margin-top: 20px;
-        }
+   .messages {
+        position: absolute;
+        right: 649px;
+        top: 0px;
+        width: 250px;
+        padding: 10px;
+        padding-left: 29px;
+        padding-right: 9px;
+        font-size: 10px;
+        line-height: 27px;
+        text-align: left;
+        font-weight: 600;
+        border: solid rgb(255, 255, 255);
+        border-radius: 0px 50px 50px 50px;
+        margin-top: 220px;
+        opacity: .75;
+    }   
+        
     </style>
 </head>
 <body>
     
     <div class="page">
+
+
         
-        <form method="post" id="signup" enctype="multipart/form-data" style="margin-top: 100px;">
+        
+        <form method="post" id="upload-form" enctype="multipart/form-data">
             {% csrf_token %}
 
-                <div class="messages">
-                <input type="file" name="profile_photo" id="">
+                <div class="drop-area">
+                <i class='bx bxs-user-plus'></i>
+                <p></p>
+                <span></span>
+                <button id="browse-file-btn" type="button">Browse Files</button>
+                <input type="file" id="input-file" name="profile_photo" hidden />
                 </div>
                 {% if messages %}
                     <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
+                {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
                     </ul>
                 {% endif %}
-                <div style="margin-top: 30px;">
+                <div style="margin-top: 300px;">
                 <div>
-                    <input minlength="4" maxlength="15" name="user_name" type="text"class="input-short"placeholder="User Name"/>
+                    <input required minlength="4" maxlength="15" name="user_name" type="text"class="input-short"placeholder="User Name"/>
                 </div>
                 <div>
-                    <input name="mail_id" type="email"class="input-short"placeholder="Mail "/>
+                    <input required name="mail_id" type="email"class="input-short"placeholder="Mail "/>
                 </div>
                 <div>
-                    <input minlength="8" maxlength="16" name="password" type="password"class="input-short"placeholder="password"/>
+                    <input required minlength="8" maxlength="16" name="password" type="password"class="input-short"placeholder="password"/>
                 </div>
                 <div>
-                    <input minlength="10" maxlength="10" name="phone_no" type="text"class="input-short"placeholder="Phone Number"/>
+                    <input required minlength="10" maxlength="10" name="phone_no" type="text"class="input-short"placeholder="Phone Number"/>
                 </div>
                 <div>
-                    <input minlength="6" maxlength="6" name="pin_code" type="text"class="input-short"placeholder="Pin Code"/>
+                    <input required minlength="6" maxlength="6" name="pin_code" type="text"class="input-short"placeholder="Pin Code"/>
                 </div>
                 <div>
-                    <input name="address" type="text"class="input-short"placeholder="Adress"/>
+                    <input required name="address" type="text"class="input-short"placeholder="Adress"/>
                 </div>
                 <div style="margin-left: 90px;
                             margin-top: -50px;">
@@ -84,6 +97,7 @@
                 text-align: center;">Sign In</a></p>
             </div> 
         </form>    
+         
         
 
     </div>

@@ -17,9 +17,18 @@ Including another URLconf
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
+from fluxify_user import urls
 from . import views
 urlpatterns = [
     path('list', views.list,name='list_page'),
+    path('posts_search', views.post_search, name='post_search'),
+    path('post_sort', views.post_sort, name='post_sort'),  # Sorting page
+    path('sorted-posts', views.sorted_posts, name='sorted_posts'),  # Target page
+    path('search/', views.keyword_search, name='keyword_search'),
+    path('post_details/<int:id>/', views.post_details, name='post_details'),
+    
 
-]
-urlpatterns += static(settings.MEDIA_URL,document_root=settings.STATIC_ROOT)
+
+    
+
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -21,14 +21,24 @@ from . import views
 urlpatterns = [ 
     path('home', views.home,name='home_page'),
     path('settings', views.settings,name='settings_page'),
-    path('chat', views.chat,name='chat_page'),
     path('profile', views.profile,name='profile_page'),
     path('', views.login,name='login_page'),
     path('signup', views.signup,name='signup_page'),
+    path('verify-otp/',views.verify_otp, name='verify_otp'),
+    path('logout', views.user_logout,name='logout'),
+    path('user/<id>', views.user_b,name='user_b_profile'),
+    path('profile_saved', views.profile_page_saved, name='profile_page_saved'),
+    path('save_post/<int:post_id>/', views.save_post, name='save_post'),
+    path('report/', views.report_issue, name='report_issue'),
+    path('help/', views.submit_help_request, name='submit_help_request'),
+    path("verification/", views.verification_request, name="verification_page"),
+    path("scs", views.scs, name="scs_page"),
+
 
     
     
     
 
-]
-urlpatterns += static(settings.MEDIA_URL,document_root=settings.STATIC_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

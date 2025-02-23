@@ -1,0 +1,146 @@
+.detailed-post-card{
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  font-family: roboto,areal;
+  margin-top: 30px;
+  
+}
+
+.detailed-post-card-body{
+  flex: 1;
+  border-color: aliceblue;
+
+}
+.detailed-post-card-body-img{
+  height: 470px;
+  max-width: 100;
+  width: 100%;
+  border-radius: 30px;
+}
+.detailed-post-card-foot{
+  flex: 3;
+  display: flex;
+  flex-direction: row;
+  margin-top: -5px;
+  justify-content: space-between;
+}
+.foot-left{
+flex: 1;
+display:flex;
+flex-direction: column;
+margin-top: 20px;
+margin-right: 20px;
+}
+.foot-catagory{
+  flex: 1;
+  color: white;
+  font-size: large;
+  text-align: start;
+  margin-left: 10px;
+
+}
+.foot-discription{
+  flex: 3;
+  max-width: 100%;
+  height: fit-content;
+  margin-top: 5px;
+  color: white;
+  border: 2px solid white;
+  border-radius: 2px 32px 32px 32px;
+  background-color:transparent;
+  color: white;
+  padding: 10px 30px 10px 20px; 
+  font-size: 12px;
+  outline: none;
+  
+}
+.foot-review-button-div{
+  flex: 1;
+  padding-top: 20px;
+}
+.foot-review-button{
+  background: white;
+  border-radius: 32px;
+  width: 98%;
+  border: none;
+  padding: 10px 20px 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.15s;
+}
+.foot-review-button:hover{
+  cursor: pointer;
+  width: 100%;
+}
+.foot-right{
+  flex: 1;
+  display:flex;
+  flex-direction: column;
+  margin-top: 25px;
+}
+.foot-enquiry-button{
+  background: white;
+  border-radius: 32px;
+  width: 98%;
+  border: none;
+  padding: 10px 20px 10px 20px;
+  font-size: medium;
+  font-weight: 600;
+  transition: 0.15s;
+}
+.foot-enquiry-button:hover{
+  cursor: pointer;
+  width: 100%;
+}
+.foot-estimate-reach-price{
+  border: 2px solid white;
+  border-radius: 32px;
+  background-color:transparent;
+  color: white;
+  width: 100%;
+  padding: 10px 20px 10px 50px; 
+  font-size: 16px;
+  outline: none;
+  margin-top: 24px;
+}
+.foot-Save-button{
+  margin-top: 24px;
+  background: white;
+  border-radius: 32px;
+  width: 98%;
+  border: none;
+  padding: 10px 20px 10px 20px;
+  font-size: medium;
+  font-weight: 600;
+  transition: 0.15s;
+}
+.foot-Save-button:hover{
+  cursor: pointer;
+  width: 100%;
+}
+
+
+
+.button-text{
+  background: white;
+  border-radius: 32px;
+  border: none;
+  padding: 5px 20px 5px 20px;
+  font-size: medium;
+  font-weight: 600;
+  transition: 0.15s;
+  margin: 50px;
+
+}
+.button-text:hover{
+  padding: 5px 25px 5px 25px;
+  cursor: pointer;
+}
+
+
+.button-text:active{
+  box-shadow: 0px 0px 10px rgb(255, 255, 255);
+  transition: 0.02s;
+}
+      

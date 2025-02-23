@@ -1,0 +1,132 @@
+{% load static %}
+{% load tz %}  <!-- Add this at the top of your template -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with {{ receiver.user_name }}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'styles/sub-pages/chat.css' %}">
+
+    <title></title>
+</head>
+<body style="background-color: rgb(0, 0, 0);
+             font-family: 'Roboto', sans-serif;">
+    <div class="page">
+      <a href="{% url 'user_b_profile' receiver.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
+        <div class="chat-card">
+            <div class="chat-card-head">
+              <div class="chat-card-dp-icon">
+                <img class="chat-card-dp-img" src="{% if receiver.profile_photo %}{{ receiver.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="">
+              </div>
+              <div class="chat-card-name-location">
+                <div class="chat-card-name">
+                  <p>{{ receiver.user_name }}</p>
+                </div>
+                <div class="chat-card-location">
+                  <p>{{ receiver.address }}</p>
+                </div>
+              </div>
+            </div>
+        </a>
+                  {% for message in messages %}
+                  <div class="chat-card-body" id="chat-messages">
+                    <div class="chat-body-user-profile-message">
+                      <div class="chat-body-user-profile-img">
+                        <img class="image-profile-message" src="{% if message.sender.profile_photo %}{{ message.sender.profile_photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="">
+                      </div>
+                      <div class="chat-body-user-message">
+                        <p>
+                          {{ message.content }}
+                        </p>
+                        <div class="messages-time">
+                          <p style="font-size: 8px;"> {{ message.timestamp|localtime|time:"h:i A" }}  <!-- 12-hour format with AM/PM --></p>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  {% endfor %}
+                  <div style="margin-top: 100px;
+                              background-color: black;
+                              color: black;">
+                      <p>
+                        heyyyy
+                      </p>
+                  </div>
+          <form action="">
+            <div class="chat-card-foot">
+              <div class="chat-card-space"> 
+              </div>
+              <div class="chat-card-message-text">
+                <input type="text" class="message-text-input" id="message-input" placeholder="Type a message...">
+              </div>
+              <div>
+                <button  id="send-button" class="chat-card-send-button">
+                  <i class='bx bxs-send'></i>
+                </button>
+              </div>
+           </form>    
+            </div>
+          </div>
+        </div>
+    </div>
+
+    {% block nav_button%}
+    {% include "nav_button.html" %}
+    {% endblock nav_button%}
+
+
+    <script>
+        const receiverId = "{{ receiver.user_name }}";
+
+        // Fetch messages from the server
+        const fetchMessages = () => {
+            $.get(`/fetch-messages/${receiverId}/`, (data) => {
+                const chatMessages = $('#chat-messages');
+                chatMessages.empty();
+                data.messages.forEach(msg => {
+                    const currentUserName = "{{ request.user.user_name }}";
+                    const messageClass = messageClass = msg.sender === currentUserName ? "sender" : "receiver";
+                    chatMessages.append(`
+                        <div class="chat-message ${messageClass}">
+                            <strong>${msg.sender}:</strong> ${msg.content}
+                        </div>
+                    `);
+                });
+                chatMessages.scrollTop(chatMessages.prop("scrollHeight"));
+            });
+        };
+
+        // Send a new message
+        $('#send-button').click(() => {
+            const content = $('#message-input').val();
+            if (content.trim() !== "") {
+                $.ajax({
+                    url: '/send-message/',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ receiver: receiverId, content: content }),
+                    success: () => {
+                        $('#message-input').val('');
+                        fetchMessages();
+                    },
+                    error: (xhr) => {
+                        alert(`Error: ${xhr.responseText}`);
+                    }
+                });
+            }
+        });
+
+        // Auto-fetch messages every 5 seconds
+        setInterval(fetchMessages, 5000);
+
+        // Initial fetch
+        fetchMessages();
+    </script>
+
+
+</body>
+</html>

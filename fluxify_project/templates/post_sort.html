@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles/main-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main-pages/general.css' %}">
+</head>
+<body>
+  {% block header_search %}
+  {% include "header-search.html" %}
+  {% endblock header_search %}
+
+    <div class="page">
+
+      <form method="get" action="{% url 'sorted_posts' %}">
+          <div style="margin-bottom: 30px;
+                      margin-right: 30px;">
+            <input name="category" class="drop-down" list="Catagories" placeholder="Catagories">
+            <datalist id="Catagories">
+                <option value="Influencer">
+                <option value="Bill Board/Hoardings">
+                <option value="Wall-Advertisement"></option>
+                <option value="Airport">
+                <option value="ATM">
+                <option value="Vehicle-Advertsiment">
+                <option value="Cinema theatre">
+                <option value="Event">
+                <option value="In flight">
+                <option value="Lamp post">
+                <option value="Look walker">
+                <option value="Soping Mall">
+                <option value="Metro station">
+                <option value="News paper">
+                <option value="Radio">
+                <option value="TV Channel">
+                <option value="Railway station">
+                <option value="Tea cup">
+                <option value="Traffic barricades">
+                <option value="Train">
+                <option value="Others">
+            </datalist>
+          </div>
+
+
+          <div style="margin-bottom: 30px;
+                      margin-right: 30px;">
+            <input class="drop-down"  name="location" list="Location" placeholder="Location">
+            <datalist id="Location">
+              <option value="Manjeri">
+              <option value="Perinthalmanna">
+              <option value="Kochi">
+              <option value="Calicut">
+              <option value="Malappuram">
+            </datalist>
+          </div>
+
+
+          <div style="margin-bottom: 30px;
+                      margin-right: 30px;">
+            <input class="drop-down" name="price" list="Price" placeholder="Price">
+            <datalist id="Price">
+              <option value="">-- Select --</option>
+              <option value="Ascending">Low to High</option>
+              <option value="Descending">High to Low</option>
+            </datalist>
+          </div>
+
+        
+          <div style="display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      max-width: 200px;
+                      margin-right: 60px;">
+            <div style="max-width: 100px;
+                        margin-left: -30px;">
+              <a href="{% url 'home_page' %}">
+                <button class="button-text">Cancel</button>
+              </a>  
+            </div>
+            <div style="max-width: 140px;
+                        margin-left: 40px;">
+              <button type="submit" class="button-text">Sort</button>
+            </div>          
+          </div>
+       </form>
+    </div>
+     
+{% block nav_button%}
+{% include "nav_button.html" %}
+{% endblock nav_button%}
+        
+</body>
+</html>

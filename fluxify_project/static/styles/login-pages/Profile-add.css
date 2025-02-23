@@ -6,37 +6,30 @@
   :root {
     /* colors */
     --primary: #000000;
-    --secondary: #d1d1d1;
-    --secondary-dark: #cfcdcd;
+    --secondary: #6d6d6d;
+    --secondary-dark: #7b7b7b;
     --light: #ffffff;
-    --danger: #b0b0b0;
+    --danger: #f45050;
   }
 
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: roboto,arial;
-  }
-
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--primary);
+    font-family: "Montserrat", sans-serif;
   }
 
   .drop-area {
-    margin-right: 30px;
-    margin-top: 150px;
-    position: absolute;
+    margin-top: 50px;
+    position: absolute; 
     display: flex;
+    margin-left: 45px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 130px;
-    height: 130px;
-    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+    border-radius: 144px;
     color: var(--light);
     font-size: 1.7rem;
     font-weight: 600;
@@ -51,28 +44,29 @@
   }
 
   .drop-area i {
-    font-size: 100px;
-    margin-bottom: -40px;
+    font-size: 99px;
+    margin-bottom: -45px;
+    margin-top: -22px;
   }
 
   .drop-area p {
+    font-size: medium;
     text-align: center;
     margin-bottom: 1rem;
   }
 
   .drop-area span {
-    font-size: 1.3rem;
+    font-size: 12px;
     margin-bottom: 1rem;
   }
 
   .drop-area button {
-    padding: 10px 1.5rem;
-    border-radius: 25x;
-    font-size: 10px;
+    padding: 9px 19px;
+    border-radius: 25px;
+    font-size: 12px;
     font-weight: 500;
-    border-radius: 60px;
-    color: black;
-    background-color:white;
+    color: var(--light);
+    background-color: var(--secondary);
     text-decoration: none;
     border: 1px solid var(--secondary);
     cursor: pointer;
@@ -94,7 +88,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
+
+}
 
   /* CSS if error occurred */
   .drop-area.error {
