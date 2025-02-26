@@ -22,7 +22,7 @@ urlpatterns = [
     path('home', views.home,name='home_page'),
     path('settings', views.settings,name='settings_page'),
     path('profile', views.profile,name='profile_page'),
-    path('', views.login,name='login_page'),
+    path('login', views.login,name='login_page'),
     path('signup', views.signup,name='signup_page'),
     path('verify-otp/',views.verify_otp, name='verify_otp'),
     path('logout', views.user_logout,name='logout'),
@@ -33,6 +33,7 @@ urlpatterns = [
     path('help/', views.submit_help_request, name='submit_help_request'),
     path("verification/", views.verification_request, name="verification_page"),
     path("scs", views.scs, name="scs_page"),
+    path("", views.index, name="index_page"),
 
 
     

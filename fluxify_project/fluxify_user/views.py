@@ -546,3 +546,7 @@ def scs(request):
          pass  # If no verification record exists, nothing changes
     
     return render(request, "sucsess.html" ,{'user': user})
+
+
+def index(request):
+    return render(request, "index.html")  # Replace with your index page template
