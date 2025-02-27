@@ -8,6 +8,8 @@ import random
 from django.core.mail import send_mail
 from django.core.mail import BadHeaderError
 from .models import user_custome, OTPVerification
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Home page view
 def home(request):
@@ -550,3 +552,46 @@ def scs(request):
 
 def index(request):
     return render(request, "index.html")  # Replace with your index page template
+
+
+
+@csrf_exempt  # Remove this in production and use Django's CSRF protection
+def update_user(request, user_id):
+    user = get_object_or_404(user_custome, id=user_id)
+
+    if request.method == "POST":
+        try:
+            new_username = request.POST.get("user_name", user.user_name)
+            new_phone_no = request.POST.get("phone_no", user.phone_no)
+            new_pin_code = request.POST.get("pin_code", user.pin_code)
+            new_address = request.POST.get("address", user.address)
+
+            # Check if the new username already exists for another user
+            if user_custome.objects.exclude(id=user.id).filter(user_name=new_username).exists():
+                messages.error(request, "Username is already taken. Please choose another one.")
+                return render(request, "update_user.html", {"user": user})
+
+            # Check if the new phone number already exists for another user
+            if user_custome.objects.exclude(id=user.id).filter(phone_no=new_phone_no).exists():
+                messages.error(request, "Phone number is already in use. Please enter a different one.")
+                return render(request, "update_user.html", {"user": user})
+
+            # Update user details
+            user.user_name = new_username
+            user.phone_no = new_phone_no
+            user.pin_code = new_pin_code
+            user.address = new_address
+
+            # Handle profile photo update if provided
+            if "profile_photo" in request.FILES:
+                user.profile_photo = request.FILES["profile_photo"]
+
+            user.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect("profile_page")  # Redirect after update
+        
+        except Exception as e:
+            messages.error(request, f"An unexpected error occurred: {str(e)}")
+            return render(request, "update_user.html", {"user": user})
+
+    return render(request, "update_user.html", {"user": user})
