@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'styles/login-pages/general.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/login-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/login-pages/Profile-add.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>Login-Page-Mail</title>
+    <style>
+        .messages {
+        position: absolute;
+        bottom: 20px;
+        width: 250px;
+        padding: 10px;
+        padding-left: 29px;
+        padding-right: 9px;
+        font-size: 10px;
+        line-height: 27px;
+        text-align: left;
+        font-weight: 600;
+        border: solid rgb(255, 255, 255);
+        border-radius: 0px 50px 50px 50px;
+        margin-top: 220px;
+        opacity: .75;
+    }
+    </style>
+</head>
+<body>
+    {% block header_search %}
+    {% include "header-search.html" %}
+    {% endblock header_search %}
+    <div class="page">
+
+
+        <form style="margin-top: 50px;" action="{% url 'update_user' user.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+                    <div>
+                    {% if user.profile_photo %}
+                        <img style="width: 150px;
+                                    height: 150px;
+                                    border-radius: 144px;
+                                    margin-left: 45px;
+                                    margin-top: 50px;
+                                    position: absolute; 
+                                    " src="{{ user.profile_photo.url }}" alt="Profile Picture">
+                    {% else %}
+                            <img style="width: 150px;
+                                    height: 150px;
+                                    border-radius: 144px;
+                                    margin-left: 45px;
+                                    margin-top: 50px;
+                                    position: absolute; 
+                                    " src="{% static 'images/default-avatar.png' %}" alt="Default Profile">
+                    {% endif %}
+                    </div>
+                    <div style="z-index: 3;" class="drop-area">
+                        <p></p>
+                        <span></span>
+                        <button type="button" style="margin-top:70px;" id="browse-file-btn">Change Picture</button>
+                        <input type="file" name="profile_photo" id="input-file" hidden />
+                    </div>
+                    <div style="margin-top: 270px;">
+                        <div>
+                            <input required type="text"class="input-short"placeholder="User Name" id="user_name" name="user_name" value="{{ user.user_name }}"/>
+                        </div>
+                        <div>
+                            <input required minlength="10" maxlength="10" type="text"class="input-short"placeholder="Phone Number"id="phone_no" name="phone_no" value="{{ user.phone_no }}"/>
+                        </div>
+                        <div>
+                            <input required minlength="6" maxlength="6" type="text"class="input-short"placeholder="Pin Code"name="pin_code" value="{{ user.pin_code }}"  />
+                        </div>
+                        <div>
+                            <input required type="text"class="input-short"placeholder="Adress"name="address" value="{{ user.address }}"/>
+                        </div>
+                        <div style="margin-left: 90px;
+                                    margin-top: -50px;">
+                            <button type="submit" class="button-icon-text">Update</button>
+                        </div>
+                        <a href="{% url 'profile_page' %}" style="text-decoration: none; color: inherit;">
+                            <div style="margin-left: -50px;
+                                        margin-top: -80px;">
+                                <button type="button" class="button-icon-text">Cancel</button>
+                            </div>
+                        </a>
+                    </div>
+                    </div>
+         </form>  
+                {% if messages %}
+                    <ul class="messages">
+                {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+                    </ul>
+                {% endif %}
+    </div>
+
+    {% block nav_button%}
+    {% include "nav_button.html" %}
+    {% endblock nav_button%}
+
+    <script src="{% static 'scripts/login-pages/script-upload.js' %}"></script>
+</body>
+</html>

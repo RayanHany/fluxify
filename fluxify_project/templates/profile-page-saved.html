@@ -109,6 +109,11 @@
         </div>
         <div class="buttons-profile-page">
                 <div style="min-width: 250px;">
+                    <a href="{% url 'update_user' user.id %}" class="chat-link" style="text-decoration: none; color: inherit;">
+                        <div style="min-width: 250px;">
+                            <button style="min-width: fit-content; "  class="button-icon">Update Profile</i></button>
+                        </div>
+                    </a>
                 </div>
             <div style="font-weight: 900;">
                 <a href="{% url 'profile_page' %}">

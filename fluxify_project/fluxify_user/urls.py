@@ -34,7 +34,8 @@ urlpatterns = [
     path("verification/", views.verification_request, name="verification_page"),
     path("scs", views.scs, name="scs_page"),
     path("", views.index, name="index_page"),
-
+    path("update-user/<int:user_id>/",views.update_user, name="update_user"),
+    
 
     
     
