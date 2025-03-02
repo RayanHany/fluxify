@@ -44,13 +44,16 @@
         <form method="post" id="upload-form" enctype="multipart/form-data">
             {% csrf_token %}
 
+                
+                <!--
                 <div class="drop-area">
                 <i class='bx bxs-user-plus'></i>
                 <p></p>
                 <span></span>
                 <button id="browse-file-btn" type="button">Browse Files</button>
-                <input type="file" id="input-file" name="profile_photo" hidden />
-                </div>
+                <input type="file" id="input-file" name="profile_photo" hidden /> 
+                </div> 
+                -->
                 {% if messages %}
                     <ul class="messages">
                 {% for message in messages %}
