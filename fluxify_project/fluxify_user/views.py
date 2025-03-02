@@ -10,6 +10,7 @@ from django.core.mail import BadHeaderError
 from .models import user_custome, OTPVerification
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import default_storage
 
 # Home page view
 def home(request):
@@ -161,7 +162,6 @@ def signup(request):
             phone_no = request.POST.get("phone_no")
             pin_code = request.POST.get("pin_code")
             address = request.POST.get("address")
-            profile_photo = request.FILES.get("profile_photo")
 
             # Check if email or phone already exists
             if user_custome.objects.filter(mail_id=mail_id).exists():
@@ -183,13 +183,12 @@ def signup(request):
                 'phone_no': phone_no,
                 'pin_code': pin_code,
                 'address': address,
-                'profile_photo': profile_photo.name if profile_photo else None,
             }
 
             # Get or create the user instance
             user_instance, created = user_custome.objects.get_or_create(
                 mail_id=mail_id,
-                defaults={'user_name': user_name, 'phone_no': phone_no, 'password': hashed_password, 'pin_code': pin_code, 'address': address, 'profile_photo': profile_photo}
+                defaults={'user_name': user_name, 'phone_no': phone_no, 'password': hashed_password, 'pin_code': pin_code, 'address': address,}
             )
 
             # Generate OTP
@@ -238,9 +237,6 @@ def verify_otp(request):
                 user_instance.phone_no = signup_data['phone_no']
                 user_instance.pin_code = signup_data['pin_code']
                 user_instance.address = signup_data['address']
-                if signup_data.get('profile_photo'):
-                    user_instance.profile_photo = signup_data['profile_photo']
-
                 user_instance.save()  # Save the user instance
 
                 # Delete OTP record after successful verification
@@ -249,7 +245,7 @@ def verify_otp(request):
                 # Log in the user
                 request.session['is_logged_in'] = True
                 request.session['mail_id'] = mail_id
-                return redirect('home_page')
+                return redirect('upload_profile_photo')
 
             else:
                 messages.error(request, "OTP expired. Please sign up again.")
@@ -264,6 +260,44 @@ def verify_otp(request):
             return redirect('verify_otp')
 
     return render(request, "verify-otp.html")
+
+
+
+def upload_profile_photo(request):
+    if not request.session.get('is_logged_in'):
+        return redirect('login_page')
+
+    if request.session.get('is_logged_in'):
+            return redirect('home_page')  # Redirect to home page if already logged in
+    
+    mail_id = request.session.get('mail_id')
+
+    if not mail_id:
+        messages.error(request, "Session expired. Please sign up again.")
+        return redirect('signup_page')
+
+    try:
+        user_instance = user_custome.objects.get(mail_id=mail_id)
+
+        if request.method == "POST":
+            if "skip" in request.POST:  # Skip button pressed
+                messages.success(request, "Signup completed successfully!")
+                return redirect('home_page')  # Redirect user to home page or dashboard
+
+            elif "profile_photo" in request.FILES:
+                profile_photo = request.FILES["profile_photo"]
+                user_instance.profile_photo = profile_photo  # Save profile photo
+                user_instance.save()
+
+                messages.success(request, "Profile photo uploaded successfully!")
+                return redirect('home_page')
+
+    except user_custome.DoesNotExist:
+        messages.error(request, "User not found. Please sign up again.")
+        return redirect('signup_page')
+
+    return render(request, "upload-profile.html")
+
 
 def login_required_custom(view_func):
     @wraps(view_func)

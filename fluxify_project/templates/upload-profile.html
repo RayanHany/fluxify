@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'styles/login-pages/general.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/login-pages/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/login-pages/Profile-add.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="page">
+        <div style="display: flex;
+                    align-items: center;
+                    margin-right: 40px;" class="logo-image-login-Page">
+        <img style="height: 300px;                                                            
+        " src="{% static 'images/fluxify logo-01.svg' %}" alt="">
+        </div>
+                    {% if messages %}
+                        <ul style="margin-bottom: 100px;" class="messages">
+                            {% for message in messages %}
+                                <li style="margin-right: 20px;" class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="z-index: 3;
+                        margin-top: -40px;
+                        margin-left: 20px;" class="drop-area">
+                <p></p>
+                <span></span>
+                <button type="button" style="margin-top:70px;" id="browse-file-btn">Set Picture</button>
+                <input type="file" name="profile_photo" id="input-file" hidden />
+            </div>
+            <div style="display: flex;
+                        flex-direction: row;
+                        
+                        margin-top: 150px;
+                        ">
+                        <button style="margin-top: 550px;
+                                        margin: -5px;
+                                        margin-right: 10px;
+                                        " class="button-icon-text" type="submit">Upload</button>
+            </form>
+            <form method="post">
+                {% csrf_token %}
+                <button style="margin-top: 550px;
+                               margin: -5px;
+                               margin-left: 20px;
+                               margin-right: 50px;" 
+                                class="button-icon-text" type="submit" name="skip">Skip</button> 
+            </form> 
+            </div>
+           
+        <!-- <button style="margin-top: 550px;
+                           margin: 0px;" class="button-icon-text" type="submit">Upload</button>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button class="button-icon-text" type="submit" name="skip">Skip</button> 
+        </form> 
+        -->
+        <div style="margin-top: 50px;">
+            <h3 style="margin-right: 35px;">
+                Upload a profile picture
+            </h3>
+        </div>
+    </div>
+
+    <script src="{% static 'scripts/login-pages/script-upload.js' %}"></script>
+</body>
+</html>

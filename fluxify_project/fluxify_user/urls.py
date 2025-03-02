@@ -35,6 +35,7 @@ urlpatterns = [
     path("scs", views.scs, name="scs_page"),
     path("", views.index, name="index_page"),
     path("update-user/<int:user_id>/",views.update_user, name="update_user"),
+    path("upload-profile-photo", views.upload_profile_photo, name="upload_profile_photo"),
     
 
     
