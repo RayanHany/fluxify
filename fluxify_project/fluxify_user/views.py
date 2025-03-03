@@ -11,6 +11,10 @@ from .models import user_custome, OTPVerification
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
+from django.conf import settings
+from django.core.cache import cache  # ✅ Use Django's cache for temporary OTP storage
+
+
 
 # Home page view
 def home(request):
@@ -136,10 +140,13 @@ def send_otp_email(mail_id, otp_code):
     message = (
         "Dear User,\n\n"
         "Your One-Time Password (OTP) for account verification is:\n\n"
-        f"🔒 **{otp_code}** 🔒\n\n"
+        f"🔒 **  {otp_code}  ** 🔒\n\n"
         "This OTP is valid for **5 minutes**. Do not share it with anyone.\n\n"
         "If you did not request this, please ignore this email.\n\n"
         "Best regards,\n"
+        "Don't reply to this email.\n"
+        "Also don't share this OTP with anyone.\n"
+        "\n""\n""\n"
         "Flexify Team"
     )
     sender_email = "fluxify.inc@gmail.com"  #  sender email
@@ -267,8 +274,6 @@ def upload_profile_photo(request):
     if not request.session.get('is_logged_in'):
         return redirect('login_page')
 
-    if request.session.get('is_logged_in'):
-            return redirect('home_page')  # Redirect to home page if already logged in
     
     mail_id = request.session.get('mail_id')
 
@@ -629,3 +634,106 @@ def update_user(request, user_id):
             return render(request, "update_user.html", {"user": user})
 
     return render(request, "update_user.html", {"user": user})
+
+
+
+
+#Forgot password section
+
+# Temporary storage for OTPs (use cache or session for production)
+otp_storage = {}
+
+def generate_otp():
+    """Generate a secure 6-digit OTP."""
+    return str(random.randint(100000, 999999))
+
+
+def send_otp_email_forgot(mail_id, otp_code):
+    """Send OTP email for password reset."""
+    subject = "Reset Your Password - OTP Verification"
+    message = (
+        "Dear User,\n\n"
+        "Your One-Time Password (OTP) for password reset is:\n\n"
+        f"🔒 **  {otp_code}  ** 🔒\n\n"
+        "This OTP is valid for **5 minutes**. Do not share it with anyone.\n\n"
+        "If you did not request a password reset, please ignore this email.\n\n"
+        "Best regards,\n"
+        "Don't reply to this email.\n"
+        "Also don't share this OTP with anyone.\n"
+        "\n""\n""\n"
+        "Flexify Team"
+    )
+    sender_email = "fluxify.inc@gmail.com"  #  sender email
+    
+    try:
+        send_mail(subject, message, sender_email, [mail_id])
+    except BadHeaderError:
+        print("Invalid header found.")
+    except Exception as e:
+        print(f"Failed to send email: {str(e)}")
+
+def forgot_password_view(request):
+    """Step 1: User submits email to receive OTP."""
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            user = user_custome.objects.get(mail_id=email)
+            otp = generate_otp()
+
+            # ✅ Store OTP in Django cache (expires in 5 minutes)
+            cache.set(f"otp_{email}", otp, timeout=300)
+
+            # ✅ Send OTP via email
+            send_otp_email_forgot(email, otp)
+
+            messages.success(request, "OTP has been sent to your email.")
+            return redirect(f"/verify-otp-forgot/?email={email}")  # Redirect with email param
+        except user_custome.DoesNotExist:
+            messages.error(request, "No user found with this email.")
+    return render(request, "forgot_password.html")
+
+
+
+def verify_otp_view(request):
+    """Step 2: User enters OTP for verification."""
+    email = request.GET.get("email")
+    
+    if request.method == "POST":
+        otp_entered = request.POST["otp"]
+        otp_stored = cache.get(f"otp_{email}")  # ✅ Retrieve OTP from cache
+
+        if otp_stored and otp_stored == otp_entered:
+            cache.delete(f"otp_{email}")  # ✅ Remove OTP after verification
+            messages.success(request, "OTP verified. Set your new password.")
+            return redirect(f"/reset-password/?email={email}")
+        else:
+            messages.error(request, "Invalid or expired OTP.")
+    
+    return render(request, "verify_otp_forgot.html", {"email": email})
+
+
+
+def reset_password_view(request):
+    """Step 3: User sets a new password after OTP verification."""
+    email = request.GET.get("email")
+
+    if request.method == "POST":
+        password1 = request.POST["password1"]
+        password2 = request.POST["password2"]
+
+        if password1 != password2:
+            messages.error(request, "Passwords do not match.")
+        elif len(password1) < 8:
+            messages.error(request, "Password must be at least 8 characters long.")
+        else:
+            try:
+                user = user_custome.objects.get(mail_id=email)
+                user.password = make_password(password1)  # ✅ Hash password
+                user.save()
+
+                messages.success(request, "Password reset successful. Please log in.")
+                return redirect("login_page")
+            except user_custome.DoesNotExist:
+                messages.error(request, "User not found.")
+    
+    return render(request, "reset_password.html", {"email": email})

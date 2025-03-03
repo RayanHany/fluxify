@@ -36,6 +36,9 @@ urlpatterns = [
     path("", views.index, name="index_page"),
     path("update-user/<int:user_id>/",views.update_user, name="update_user"),
     path("upload-profile-photo", views.upload_profile_photo, name="upload_profile_photo"),
+    path("forgot-password/", views.forgot_password_view, name="forgot_password"),
+    path("verify-otp-forgot/", views.verify_otp_view, name="verify_otp_forgot"),
+    path("reset-password/", views.reset_password_view, name="reset_password"),
     
 
     
