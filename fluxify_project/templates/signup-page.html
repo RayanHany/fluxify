@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <title>Login-Page-Mail</title>
+    <title>Sign Up Page</title>
     <style>
    .messages {
         position: absolute;
@@ -38,7 +38,20 @@
     
     <div class="page">
 
-
+        <div style="display: flex;
+                    align-items: center;
+                    margin-right: 40px;
+                    margin-top: 10px;" class="logo-image-login-Page">
+        <img style="height: 300px;                                                            
+                    margin-top: -70px;" src="{% static 'images/fluxify logo-01.svg' %}" alt="">
+        </div>
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li style="margin-right: 80px;" class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
         
         
         <form method="post" id="upload-form" enctype="multipart/form-data">
@@ -61,7 +74,7 @@
                 {% endfor %}
                     </ul>
                 {% endif %}
-                <div style="margin-top: 300px;">
+                <div style="margin-top: 00px;">
                 <div>
                     <input required minlength="4" maxlength="15" name="user_name" type="text"class="input-short"placeholder="User Name"/>
                 </div>
@@ -92,7 +105,7 @@
                 justify-content: center;
                 align-items: center;
                 text-align: center;
-                margin-bottom: 80px;
+                margin-bottom: 20px;
                 font-size: 14px;">Already have an account? 
                 <a href="{% url 'login_page' %}" style="color: #c7c3c3;
                 font-weight: bold;
