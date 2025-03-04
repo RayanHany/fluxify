@@ -9,25 +9,39 @@ from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
+# Function to generate PDF with table format
 def generate_pdf(users):
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'attachment; filename="user_data.pdf"'
+
+    doc = SimpleDocTemplate(response, pagesize=A4)
+    elements = []
+
+    # Define table headers
+    data = [["ID", "Name", "Email", "Role", "Phone", "Pincode"]]
     
-    pdf = canvas.Canvas(response)
-    pdf.setFont("Helvetica-Bold", 14)
-    pdf.drawString(100, 800, "User Custom Data Report")
-    pdf.setFont("Helvetica", 10)
-    
-    y = 780
+    # Add user data to table
     for user in users:
-        pdf.drawString(50, y, f"ID: {user.id}, Name: {user.user_name}, Email: {user.mail_id}, Role: {user.user_role}, Phone: {user.phone_no}, Pincode: {user.pin_code}")
-        y -= 20
-        if y < 50:  # New page if content exceeds
-            pdf.showPage()
-            pdf.setFont("Helvetica", 10)
-            y = 800
+        data.append([user.id, user.user_name, user.mail_id, user.user_role, user.phone_no, user.pin_code])
+
+    # Create table
+    table = Table(data, colWidths=[50, 100, 150, 80, 80, 80])  # Adjust column widths
+
+    # Table Styling
+    style = TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.gray),  # Header background
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),  # Align all text center
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),  # Bold headers
+        ("BOTTOMPADDING", (0, 0), (-1, 0), 10),
+        ("BACKGROUND", (0, 1), (-1, -1), colors.beige),  # Row background color
+        ("GRID", (0, 0), (-1, -1), 1, colors.black),  # Table border
+    ])
     
-    pdf.save()
+    table.setStyle(style)
+    elements.append(table)
+
+    doc.build(elements)
     return response
 
 # Custom admin action
@@ -49,6 +63,7 @@ class UserCustomeAdmin(ModelAdmin):
         return format_html('<img src="{}" width="50" height="50" />', obj.profile_photo.url if obj.profile_photo else '/static/images/default-avatar.png')
     
     profile_Photo_url.short_description = 'Profile Photo'
+
 
 # Report Admin
 @admin.register(report)
